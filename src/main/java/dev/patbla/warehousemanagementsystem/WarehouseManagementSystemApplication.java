@@ -9,5 +9,4 @@ public class WarehouseManagementSystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(WarehouseManagementSystemApplication.class, args);
     }
-
 }
