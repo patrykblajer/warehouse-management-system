@@ -5,21 +5,21 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="1" author="patbla">
-        <createTable tableName="product">
+        <createTable tableName="quantity">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="index" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="quantity_id" type="bigint">
+            <column name="available" type="double">
                 <constraints nullable="true"/>
             </column>
-            <column name="unit" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+            <column name="in_reservation" type="double">
+                <constraints nullable="true"/>
+            </column>
+            <column name="stacked_on_pallet" type="double">
+                <constraints nullable="true"/>
+            </column>
+            <column name="minimum_level_of_stocks" type="double">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

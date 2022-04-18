@@ -1,0 +1,66 @@
+.menuContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 1;
+  margin-left: 35px;
+}
+
+.menuContainer nav {
+  -webkit-animation: text-focus-in 0.3s;
+          animation: text-focus-in 0.3s;
+}
+
+.menuContainer nav a {
+  text-decoration: none;
+}
+
+.menuContainer nav ul {
+  padding: 0;
+}
+
+.menuContainer nav li {
+  text-align: left;
+  font-size: 16px;
+  line-height: 80px;
+  list-style-type: none;
+}
+
+.menuContainer nav li a {
+  display: block;
+  height: 60px;
+  width: 100%;
+  color: black;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: border-bottom 0.4s ease-in-out;
+  transition: border-bottom 0.4s ease-in-out;
+}
+
+.menuContainer nav li a:hover {
+  border-bottom: 3px solid #605b5b;
+  color: black;
+}
+
+.menuContainer i {
+  width: 40px;
+  font-size: 1.3rem;
+  margin-right: 10px;
+}
+
+.menuContainer footer {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 12px;
+}
+/*# sourceMappingURL=Menu.module.css.map */

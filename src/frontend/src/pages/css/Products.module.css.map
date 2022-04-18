@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACI,cADU,CACV,EAAE,CAAC;EACC,SAAS,EAAE,MAAM;CACpB;;AAHL,AAII,cAJU,CAIV,EAAE,CAAC;EACC,SAAS,EAAE,MAAM;CACpB;;AAGL,AAAA,OAAO,CAAC;EACJ,gBAAgB,EAAE,OAAO;EACzB,MAAM,EAAE,QAAQ;CACnB;;AAED,AAAA,OAAO,AAAA,MAAM,CAAC;EACV,gBAAgB,EAAE,OAAO;CAC5B",
+    "sources": [
+        "../Products/Products.module.scss"
+    ],
+    "names": [],
+    "file": "Products.module.css"
+}

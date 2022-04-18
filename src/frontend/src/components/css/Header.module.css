@@ -1,0 +1,85 @@
+.topBar {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 10px;
+  border-radius: 13px;
+  margin-bottom: 10px;
+}
+
+.topBar .weatherWidgetContainer {
+  margin-left: 50px;
+}
+
+.topBar .accountContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 50px;
+  -webkit-animation: text-focus-in 0.3s;
+          animation: text-focus-in 0.3s;
+}
+
+.topBar .accountContainer .accountInfo {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin-left: 30px;
+}
+
+.topBar .accountContainer .accountInfo p {
+  margin: auto;
+}
+
+.topBar .accountContainer .accountAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 30%;
+  background-image: url("../../images/avatar.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.topBar .accountContainer .accountActions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  background-color: #a2a1c9;
+  border-radius: 3px;
+  margin-left: 30px;
+}
+
+.topBar .accountContainer .accountActions button {
+  margin: 5px;
+  background-color: #cdd0e4ff;
+}
+
+.topBar .accountContainer .accountActions i {
+  color: black;
+}
+/*# sourceMappingURL=Header.module.css.map */

@@ -10,5 +10,9 @@
                   separator=";"
                   tableName="product">
         </loadData>
+        <loadData file="db/devdata/008-quantity.csv"
+                  separator=";"
+                  tableName="quantity">
+        </loadData>
     </changeSet>
 </databaseChangeLog>

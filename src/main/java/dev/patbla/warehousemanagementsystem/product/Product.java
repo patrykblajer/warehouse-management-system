@@ -1,5 +1,8 @@
 package dev.patbla.warehousemanagementsystem.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.patbla.warehousemanagementsystem.product.quantity.Quantity;
+import dev.patbla.warehousemanagementsystem.product.unit.Unit;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,4 +19,9 @@ public class Product {
     private Long id;
     private String index;
     private String name;
+    @JoinColumn
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Quantity quantity;
+    @Enumerated(EnumType.STRING)
+    private Unit unit;
 }

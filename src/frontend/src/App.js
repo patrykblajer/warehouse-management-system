@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-
+import './App.css'
+import React, { useReducer, lazy, Suspense, useEffect } from 'react'
+import { render } from 'react-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Products from './pages/Products/Products'
+import Layout from './Layout/Layout'
+import Home from './pages/Home'
+import Header from './components/Header/Header'
+import Menu from './components/Menu/Menu'
+import ErrorBoundary from './hoc/ErrorBoundary'
+import ReducerContext from './context/reducerContext'
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const content = (
+		<div>
+			<Suspense fallback={<p>Ładowanie</p>}>
+				<Routes>
+					<Route path='/' element={<Home />} />
+					<Route path='/products' element={<Products />} />
+				</Routes>
+			</Suspense>
+		</div>
+	)
+
+	const header = <Header></Header>
+	const menu = <Menu></Menu>
+
+	render(
+		<BrowserRouter>
+			<Layout header={header} menu={menu} content={content} />
+		</BrowserRouter>,
+		document.getElementById('root')
+	)
 }
 
-export default App;
+export default App
