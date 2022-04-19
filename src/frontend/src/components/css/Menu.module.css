@@ -12,8 +12,8 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  z-index: 1;
-  margin-left: 35px;
+  height: 100%;
+  border-right: 3px solid #d4d4d4;
 }
 
 .menuContainer nav {
@@ -47,8 +47,8 @@
 }
 
 .menuContainer nav li a:hover {
-  border-bottom: 3px solid #605b5b;
-  color: black;
+  border-bottom: 3px solid #5863b4;
+  color: #5863b4;
 }
 
 .menuContainer i {
