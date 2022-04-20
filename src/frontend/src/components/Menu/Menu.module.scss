@@ -6,6 +6,15 @@ $base-color: #d4d4d4;
     justify-content: center;
     height: 100%;
     border-right: 3px solid #00aeef;
+    .footerContainer {
+        align-self: center;
+        text-align: center;
+        line-height: 1px;
+        transform: translateY(5rem);
+        p {
+            font-size: 0.8rem;
+        }
+    }
     .menuList {
         display: flex;
         flex-direction: column;
@@ -33,6 +42,7 @@ $base-color: #d4d4d4;
                 width: 40px;
                 font-size: 1rem;
                 margin-right: 10px;
+                margin-left: 10px;
             }
         }
     }
@@ -43,16 +53,5 @@ $base-color: #d4d4d4;
     a,
     i {
         color: white;
-    }
-}
-
-.menuListItem>.menuListItemActive {
-    background-color: #00aeef;
-    text-transform: lowercase;
-    .menuListItem:hover {
-        background-color: #00aeef;
-        a:hover {
-            color: white;
-        }
     }
 }

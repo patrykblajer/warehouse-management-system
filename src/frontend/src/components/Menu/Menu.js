@@ -4,7 +4,7 @@ import React from 'react'
 
 function Menu() {
 	return (
-		<aside className={`${style.menuContainer}`}>
+		<div className={`${style.menuContainer}`}>
 			<nav>
 				<ul className={style.menuList}>
 					<li className={style.menuListItem}>
@@ -37,7 +37,7 @@ function Menu() {
 					</li>
 					<li className={style.menuListItem}>
 						<NavLink to={`/#`}>
-							<i className='fas fa-clipboard'></i>Inwentaryzacja
+							<i className='fa-solid fa-file-pen'></i>Inwentaryzacja
 						</NavLink>
 					</li>
 					<li className={style.menuListItem}>
@@ -52,12 +52,11 @@ function Menu() {
 					</li>
 				</ul>
 			</nav>
-			<footer>
-				<p className='author'>created by Patryk Blajer</p>
-				<span>© </span>
-				<span>2022</span>
+			<footer className={style.footerContainer}>
+				<p>created by Patryk Blajer</p>
+				<p>© 2022 </p>
 			</footer>
-		</aside>
+		</div>
 	)
 }
 
