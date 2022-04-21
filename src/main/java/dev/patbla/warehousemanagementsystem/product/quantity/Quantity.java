@@ -1,6 +1,5 @@
 package dev.patbla.warehousemanagementsystem.product.quantity;
 
-import dev.patbla.warehousemanagementsystem.product.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,8 +15,8 @@ public class Quantity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double available;
-    @Column(name = "in_reservation")
-    private double inReservation;
+    @Column(name = "in_collective_package")
+    private double inCollectivePackage;
     @Column(name = "stacked_on_pallet")
     private double stackedOnPallet;
     @Column(name = "minimum_level_of_stocks")

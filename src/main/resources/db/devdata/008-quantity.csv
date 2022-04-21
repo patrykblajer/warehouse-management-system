@@ -1,4 +1,4 @@
-id;available;in_reservation;stacked_on_pallet;minimum_level_of_stocks
+id;available;in_collective_package;stacked_on_pallet;minimum_level_of_stocks
 1;320;11;64;128
 2;300;0;32;64
 3;60;12;10;10

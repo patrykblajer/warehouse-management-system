@@ -15,11 +15,20 @@
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="ean" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="quantity_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
-            <column name="unit" type="VARCHAR(255)">
+            <column name="unit_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="category_id" type="bigint">
                 <constraints nullable="false"/>
+            </column>
+            <column name="packaging_type_id" type="bigint">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

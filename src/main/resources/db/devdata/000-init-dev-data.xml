@@ -6,13 +6,25 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <changeSet id="1" author="patbla">
-                <loadData file="db/devdata/product.csv"
-                  separator=";"
-                  tableName="product">
-        </loadData>
         <loadData file="db/devdata/008-quantity.csv"
                   separator=";"
                   tableName="quantity">
+        </loadData>
+        <loadData file="db/devdata/002-category.csv"
+                  separator=";"
+                  tableName="category">
+        </loadData>
+        <loadData file="db/devdata/000-unit.csv"
+                  separator=";"
+                  tableName="unit">
+        </loadData>
+        <loadData file="db/devdata/006-packaging-type.csv"
+                  separator=";"
+                  tableName="packaging_type">
+        </loadData>
+        <loadData file="db/devdata/product.csv"
+                  separator=";"
+                  tableName="product">
         </loadData>
     </changeSet>
 </databaseChangeLog>

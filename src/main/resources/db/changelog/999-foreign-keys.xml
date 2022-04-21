@@ -59,11 +59,17 @@
                                  referencedTableName="quantity"
                                  referencedColumnNames="id" />
 
-<!--        <addForeignKeyConstraint baseTableName="product"-->
-<!--                                 baseColumnNames="category_id"-->
-<!--                                 constraintName="fk_product__category_id"-->
-<!--                                 referencedTableName="category"-->
-<!--                                 referencedColumnNames="id" />-->
+        <addForeignKeyConstraint baseTableName="product"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_product__category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="product"
+                                 baseColumnNames="unit_id"
+                                 constraintName="fk_product__unit_id"
+                                 referencedTableName="unit"
+                                 referencedColumnNames="id" />
 
 <!--        <addForeignKeyConstraint baseTableName="product"-->
 <!--                                 baseColumnNames="packaging_type_id"-->

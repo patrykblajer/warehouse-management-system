@@ -24,9 +24,13 @@ function Products() {
 						<th scope='col'>ID</th>
 						<th scope='col'>Index</th>
 						<th scope='col'>Nazwa</th>
+						<th scope='col'>EAN</th>
 						<th scope='col'>Kategoria</th>
-						<th scope='col'>Dostępna ilość</th>
-						<th scope='col'>Typ opakowania|Podlega paletyzacji</th>
+						<th scope='col'>Stan</th>
+						<th scope='col'>J.m.</th>
+						<th scope='col'>Typ op. zbiorczego</th>
+						<th scope='col'>Ilość w op. zbiorczym</th>
+						<th scope='col'>Ilość na palecie</th>
 						<th scope='col'>Strefa składowania</th>
 						<th scope='col'>Regał|Miejsce</th>
 						<th scope='col'>Ostatnia modyfikacja|Kto</th>
@@ -40,7 +44,13 @@ function Products() {
 								<td>{product.id}</td>
 								<td>{product.index}</td>
 								<td>{product.name}</td>
-								<td>{product.quantity.available - product.quantity.inReservation}</td>
+								<td>{product.ean}</td>
+								<td>{product.category.name}</td>
+								<td>{product.quantity.available}</td>
+								<td>{product.unit.name}</td>
+								<td>{product.packagingType.name}</td>
+								<td>{product.quantity.inCollectivePackage}</td>
+								<td>{product.quantity.stackedOnPallet}</td>
 							</tr>
 						)
 					})}

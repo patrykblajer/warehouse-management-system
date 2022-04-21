@@ -8,6 +8,10 @@
     <!--    INIT -->
     <include file="product.xml" relativeToChangelogFile="true"/>
     <include file="010-quantity.xml" relativeToChangelogFile="true"/>
+    <include file="006-category.xml" relativeToChangelogFile="true"/>
+    <include file="006-unit.xml" relativeToChangelogFile="true"/>
+    <include file="005-packaging-type.xml" relativeToChangelogFile="true"/>
+<!--    <include file="999-foreign-keys.xml" relativeToChangelogFile="true"/>-->
 
     <!--    DEV-->
     <include file="../devdata/000-init-dev-data.xml" context="dev" relativeToChangelogFile="true"/>

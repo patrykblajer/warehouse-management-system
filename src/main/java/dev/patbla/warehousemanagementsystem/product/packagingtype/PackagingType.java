@@ -1,4 +1,4 @@
-package dev.patbla.warehousemanagementsystem.product.unit;
+package dev.patbla.warehousemanagementsystem.product.packagingtype;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Unit {
+public class PackagingType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
