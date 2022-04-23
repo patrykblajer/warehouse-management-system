@@ -22,6 +22,18 @@
                   separator=";"
                   tableName="packaging_type">
         </loadData>
+        <loadData file="db/devdata/000-area.csv"
+                  separator=";"
+                  tableName="area">
+        </loadData>
+        <loadData file="db/devdata/000-storagetype.csv"
+                  separator=";"
+                  tableName="storage_type">
+        </loadData>
+        <loadData file="db/devdata/006-location.csv"
+                  separator=";"
+                  tableName="location">
+        </loadData>
         <loadData file="db/devdata/product.csv"
                   separator=";"
                   tableName="product">

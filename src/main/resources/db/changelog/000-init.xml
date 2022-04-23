@@ -11,6 +11,9 @@
     <include file="006-category.xml" relativeToChangelogFile="true"/>
     <include file="006-unit.xml" relativeToChangelogFile="true"/>
     <include file="005-packaging-type.xml" relativeToChangelogFile="true"/>
+    <include file="010-storagetype.xml" relativeToChangelogFile="true"/>
+    <include file="010-area.xml" relativeToChangelogFile="true"/>
+    <include file="010-location.xml" relativeToChangelogFile="true"/>
 <!--    <include file="999-foreign-keys.xml" relativeToChangelogFile="true"/>-->
 
     <!--    DEV-->
