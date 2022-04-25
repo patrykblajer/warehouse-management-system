@@ -50,13 +50,13 @@ function Products() {
 								<td>{product.index}</td>
 								<td>{product.name}</td>
 								<td>{product.ean}</td>
-								<td>{product.category.name}</td>
-								<td>{product.quantity.available}</td>
-								<td>{product.unit.name}</td>
-								<td>{product.quantity.inCollectivePackage}</td>
-								<td>{product.packagingType.name}</td>
-								<td>{product.quantity.stackedOnPallet}</td>
-								<td>{product.quantity.minimumLevelOfStocks}</td>
+								<td>{product.category.name == undefined ? '' : product.category.name}</td>
+								<td>{product.quantity == undefined ? '' : product.quantity.available}</td>
+								<td>{product.unit == undefined ? '' : product.unit.name}</td>
+								<td>{product.quantity == undefined ? '' : product.quantity.inCollectivePackage}</td>
+								<td>{product.packagingType == undefined ? '' : product.packagingType.name}</td>
+								<td>{product.quantity == undefined ? '' : product.quantity.stackedOnPallet}</td>
+								<td>{product.quantity == undefined ? '' : product.quantity.minimumLevelOfStocks}</td>
 								<td>{product.location == undefined ? '' : product.location.area.name}</td>
 								<td>
 									{product.location == undefined

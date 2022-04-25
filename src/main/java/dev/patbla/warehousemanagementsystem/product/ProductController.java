@@ -19,8 +19,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Product>> findAll() {
         return ResponseEntity.ok(productRepository.findAllProducts());
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> addProduct(@RequestBody ProductDto productDto) {
+        productService.addProduct(productDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -12,6 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "LEFT JOIN FETCH product.category category " +
             "LEFT JOIN FETCH product.packagingType packagingType " +
             "LEFT JOIN FETCH product.location location")
-
     List<Product> findAllProducts();
 }
