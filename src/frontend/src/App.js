@@ -7,9 +7,8 @@ import Layout from './Layout/Layout'
 import Home from './pages/Home'
 import Header from './components/Header/Header'
 import Menu from './components/Menu/Menu'
-import ErrorBoundary from './hoc/ErrorBoundary'
-import ReducerContext from './context/reducerContext'
 import AddProduct from './pages/AddProduct/AddProduct'
+import EditProduct from './pages/EditProduct/EditProduct'
 
 function App() {
 	const content = (
@@ -17,6 +16,7 @@ function App() {
 			<Suspense fallback={<p>Ładowanie</p>}>
 				<Routes>
 					<Route path='/products/add' element={<AddProduct />} />
+					<Route path='/products/edit/:id' element={<EditProduct />} />
 					<Route path='/products' element={<Products />} />
 					<Route path='/' element={<Home />} />
 				</Routes>

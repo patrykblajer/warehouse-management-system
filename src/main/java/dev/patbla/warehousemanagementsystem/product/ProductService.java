@@ -4,6 +4,8 @@ import dev.patbla.warehousemanagementsystem.product.category.CategoryRepository;
 import dev.patbla.warehousemanagementsystem.product.dtos.ProductDto;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
 public class ProductService {
@@ -23,5 +25,14 @@ public class ProductService {
                 .category(categoryRepository.findCategoryByName(productDto.getCategory()))
                 .build();
         productRepository.save(product);
+    }
+
+    @Transactional
+    public void updateProduct(Long id, ProductDto productDto) {
+        var product = productRepository.findById(id).orElseThrow();
+        product.setIndex(productDto.getIndex());
+        product.setName(productDto.getName());
+        product.setEan(productDto.getEan());
+        product.setCategory(categoryRepository.findCategoryByName(productDto.getCategory()));
     }
 }

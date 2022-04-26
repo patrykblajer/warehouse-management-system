@@ -17,6 +17,22 @@ function Products() {
 			})
 	}, [])
 
+	let dateTime = () => {
+		let today = new Date()
+		let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+		let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+		return date + ' ' + time
+	}
+
+	const deleteHandler = async id => {
+		try {
+			await axios.delete(`http://localhost:8080/api/v1/products/${id}`)
+			setProducts(products.filter(x => x.id !== id))
+		} catch (ex) {
+			console.log(ex.response)
+		}
+	}
+
 	return (
 		<>
 			<Link to={`/products/add`}>
@@ -62,6 +78,17 @@ function Products() {
 									{product.location == undefined
 										? ''
 										: product.location.storageType.name + ', ' + product.location.storageType.rowNum}
+								</td>
+								<td>{dateTime()}</td>
+								<td>
+									<Link to={`/products/edit/${product.id}`}>
+										<button className={`btn btn-secondary btn-sm ${style.button}`}>Edytuj</button>
+									</Link>
+									<button
+										onClick={() => deleteHandler(product.id)}
+										className={`btn btn-secondary btn-sm ${style.button}`}>
+										Usuń
+									</button>
 								</td>
 							</tr>
 						)
