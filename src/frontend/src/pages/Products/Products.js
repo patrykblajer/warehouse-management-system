@@ -11,7 +11,6 @@ function Products() {
 		axios
 			.get('/products')
 			.then(x => setProducts(x.data))
-
 			.catch(error => {
 				alert(error)
 			})
@@ -61,21 +60,21 @@ function Products() {
 				<tbody>
 					{products.map(product => {
 						return (
-							<tr>
+							<tr key={product.id}>
 								<td>{product.id}</td>
 								<td>{product.index}</td>
 								<td>{product.name}</td>
 								<td>{product.ean}</td>
-								<td>{product.category.name == undefined ? '' : product.category.name}</td>
-								<td>{product.quantity == undefined ? '' : product.quantity.available}</td>
-								<td>{product.unit == undefined ? '' : product.unit.name}</td>
-								<td>{product.quantity == undefined ? '' : product.quantity.inCollectivePackage}</td>
-								<td>{product.packagingType == undefined ? '' : product.packagingType.name}</td>
-								<td>{product.quantity == undefined ? '' : product.quantity.stackedOnPallet}</td>
-								<td>{product.quantity == undefined ? '' : product.quantity.minimumLevelOfStocks}</td>
-								<td>{product.location == undefined ? '' : product.location.area.name}</td>
+								<td>{product.category.name === null ? '' : product.category.name}</td>
+								<td>{product.quantity === null ? '' : product.quantity.available}</td>
+								<td>{product.unit === null ? '' : product.unit.name}</td>
+								<td>{product.quantity === null ? '' : product.quantity.inCollectivePackage}</td>
+								<td>{product.packagingType === null ? '' : product.packagingType.name}</td>
+								<td>{product.quantity === null ? '' : product.quantity.stackedOnPallet}</td>
+								<td>{product.quantity === null ? '' : product.quantity.minimumLevelOfStocks}</td>
+								<td>{product.location === null ? '' : product.location.area.name}</td>
 								<td>
-									{product.location == undefined
+									{product.location === null
 										? ''
 										: product.location.storageType.name + ', ' + product.location.storageType.rowNum}
 								</td>

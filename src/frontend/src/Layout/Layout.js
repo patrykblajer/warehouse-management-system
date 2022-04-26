@@ -1,6 +1,6 @@
 import styles from './Layout.module.scss'
 import withClass from '../hoc/withClass'
-import React, { Component } from 'react'
+import React from 'react'
 function Layout(props) {
 	return (
 		<div>

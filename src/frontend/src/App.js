@@ -1,6 +1,5 @@
 import './App.css'
-import React, { useReducer, lazy, Suspense, useEffect } from 'react'
-import { render } from 'react-dom'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Products from './pages/Products/Products'
 import Layout from './Layout/Layout'
@@ -27,11 +26,10 @@ function App() {
 	const header = <Header></Header>
 	const menu = <Menu></Menu>
 
-	render(
+	return (
 		<BrowserRouter>
 			<Layout header={header} menu={menu} content={content} />
-		</BrowserRouter>,
-		document.getElementById('root')
+		</BrowserRouter>
 	)
 }
 

@@ -1,5 +1,5 @@
 import useWebsiteTitle from '../hooks/useWebsiteTitle'
-import React, { Component } from 'react'
+import React from 'react'
 
 export default function Home() {
 	useWebsiteTitle('Warehouse Management System')

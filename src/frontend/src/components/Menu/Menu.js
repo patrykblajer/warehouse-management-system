@@ -1,5 +1,5 @@
 import style from './Menu.module.scss'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import React from 'react'
 
 function Menu() {
@@ -10,23 +10,17 @@ function Menu() {
 				<nav>
 					<ul className={style.menuList}>
 						<li className={style.menuListItem}>
-							<NavLink exact to='/' className={data => (data.isActive ? `${style.menuListItemActive}` : '')}>
+							<NavLink to='/' className={data => (data.isActive ? `${style.menuListItemActive}` : '')}>
 								<i className='fas fa-home'></i>Strona główna
 							</NavLink>
 						</li>
 						<li className={style.menuListItem}>
-							<NavLink
-								exact
-								to='/products'
-								className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
+							<NavLink to='/products' className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
 								<i className='fas fa-box'></i>Asortyment
 							</NavLink>
 						</li>
 						<li className={style.menuListItem}>
-							<NavLink
-								exact
-								to='/products'
-								className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
+							<NavLink to='/products' className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
 								<i className='fa-solid fa-map-pin'></i>Magazyn
 							</NavLink>
 						</li>

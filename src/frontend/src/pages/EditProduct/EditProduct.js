@@ -47,26 +47,26 @@ const EditProduct = () => {
 
 	return (
 		<form onSubmit={submit}>
-			<div class='mb-3'>
-				<label for='productIndex' class='form-label'>
+			<div className='mb-3'>
+				<label htmlFor='productIndex' className='form-label'>
 					Indeks produktu:
 				</label>
-				<input onChange={e => handle(e)} value={product.index} type='text' class='form-control' id='index' />
+				<input onChange={e => handle(e)} value={product.index} type='text' className='form-control' id='index' />
 			</div>
-			<div class='mb-3'>
-				<label for='productName' class='form-label'>
+			<div className='mb-3'>
+				<label htmlFor='productName' className='form-label'>
 					Nazwa produktu:
 				</label>
-				<input onChange={e => handle(e)} value={product.name} type='text' class='form-control' id='name' />
+				<input onChange={e => handle(e)} value={product.name} type='text' className='form-control' id='name' />
 			</div>
-			<div class='mb-3'>
-				<label for='productEan' class='form-label'>
+			<div className='mb-3'>
+				<label htmlFor='productEan' className='form-label'>
 					Ean produktu:
 				</label>
-				<input onChange={e => handle(e)} value={product.ean} type='text' class='form-control' id='ean' />
+				<input onChange={e => handle(e)} value={product.ean} type='text' className='form-control' id='ean' />
 			</div>
-			<button type='submit' class='btn btn-primary'>
-				Wyślij
+			<button type='submit' className='btn btn-primary'>
+				Edytuj
 			</button>
 		</form>
 	)
