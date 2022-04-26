@@ -9,6 +9,7 @@ spring:
     password: pass
   liquibase:
     contexts: dev
+    change-log: classpath:/db/changelog/000-init.xml
   jpa:
     properties:
       hibernate:
