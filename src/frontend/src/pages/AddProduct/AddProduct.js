@@ -15,7 +15,7 @@ const AddProduct = () => {
 	const submit = async e => {
 		e.preventDefault()
 		axios
-			.post('http://localhost:8080/api/v1/products', {
+			.post('/products', {
 				index: newProduct.index,
 				name: newProduct.name,
 				ean: newProduct.ean,

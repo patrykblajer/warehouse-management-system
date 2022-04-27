@@ -3,17 +3,29 @@ import { useEffect, useState } from 'react'
 import React from 'react'
 import style from './Products.module.scss'
 import { Link } from 'react-router-dom'
+import LoadingIcon from '../../components/UI/LoadingIcon/LoadingIcon'
+import LoadingButton from '../../components/UI/Butttons/LoadingButton'
+import Button from '../../components/UI/Butttons/Button'
 
 function Products() {
 	const [products, setProducts] = useState([])
+	const [loadingIcon, setLoadingIcon] = useState(true)
+	const [loadingButton, setLoadingButton] = useState('')
 
-	useEffect(() => {
-		axios
+	const fetchProducts = async () => {
+		await axios
 			.get('/products')
 			.then(x => setProducts(x.data))
 			.catch(error => {
 				alert(error)
 			})
+		setLoadingIcon(false)
+	}
+
+	useEffect(() => {
+		setTimeout(() => {
+			fetchProducts()
+		}, 500)
 	}, [])
 
 	let dateTime = () => {
@@ -23,16 +35,29 @@ function Products() {
 		return date + ' ' + time
 	}
 
-	const deleteHandler = async id => {
-		try {
-			await axios.delete(`http://localhost:8080/api/v1/products/${id}`)
-			setProducts(products.filter(x => x.id !== id))
-		} catch (ex) {
-			console.log(ex.response)
-		}
+	let onAddProvider = id => {
+		setLoadingButton(id)
+		deleteHandler(id)
 	}
 
-	return (
+	const deleteHandler = id => {
+		// setLoading(true)
+		setTimeout(() => {
+			axios
+				.delete(`/products/${id}`)
+				.then(() => {
+					setProducts(products.filter(x => x.id !== id))
+					// setLoading(false)
+				})
+				.catch(error => {
+					alert(error)
+				})
+		}, 1000)
+	}
+
+	return loadingIcon ? (
+		<LoadingIcon></LoadingIcon>
+	) : (
 		<>
 			<Link to={`/products/add`}>
 				<button className={`btn btn-secondary btn-sm ${style.button}`}>Dodaj nowy produkt</button>
@@ -83,11 +108,16 @@ function Products() {
 									<Link to={`/products/edit/${product.id}`}>
 										<button className={`btn btn-secondary btn-sm ${style.button}`}>Edytuj</button>
 									</Link>
-									<button
-										onClick={() => deleteHandler(product.id)}
-										className={`btn btn-secondary btn-sm ${style.button}`}>
-										Usuń
-									</button>
+									{loadingButton == product.id ? (
+										<LoadingButton className={`${style.button}`} buttonText={'Usuwanie'}></LoadingButton>
+									) : (
+										<button
+											type='button'
+											className={`btn btn-secondary btn-sm ${style.button}`}
+											onClick={() => onAddProvider(product.id)}>
+											Usuń
+										</button>
+									)}
 								</td>
 							</tr>
 						)
