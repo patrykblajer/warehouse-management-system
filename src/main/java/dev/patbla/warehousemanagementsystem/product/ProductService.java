@@ -17,22 +17,25 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional
     public void addProduct(ProductDto productDto) {
+        var category = categoryRepository.findCategoryByName(productDto.getCategory()).orElseThrow();
         var product = Product.builder()
                 .index(productDto.getIndex())
                 .name(productDto.getName())
                 .ean(productDto.getEan())
-                .category(categoryRepository.findCategoryByName(productDto.getCategory()))
+                .category(category)
                 .build();
         productRepository.save(product);
     }
 
     @Transactional
     public void updateProduct(Long id, ProductDto productDto) {
+        var category = categoryRepository.findCategoryByName(productDto.getCategory()).orElseThrow();
         var product = productRepository.findById(id).orElseThrow();
         product.setIndex(productDto.getIndex());
         product.setName(productDto.getName());
         product.setEan(productDto.getEan());
-        product.setCategory(categoryRepository.findCategoryByName(productDto.getCategory()));
+        product.setCategory(category);
     }
 }

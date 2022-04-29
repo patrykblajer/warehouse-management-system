@@ -8,6 +8,7 @@ import Header from './components/Header/Header'
 import Menu from './components/Menu/Menu'
 import AddProduct from './pages/AddProduct/AddProduct'
 import EditProduct from './pages/EditProduct/EditProduct'
+import SystemConfigurationPanel from './pages/SystemConfigurationPanel/SystemConfigurationPanel'
 
 function App() {
 	const content = (
@@ -17,6 +18,7 @@ function App() {
 					<Route path='/products/add' element={<AddProduct />} />
 					<Route path='/products/edit/:id' element={<EditProduct />} />
 					<Route path='/products' element={<Products />} />
+					<Route path='/sysconfig' element={<SystemConfigurationPanel />} />
 					<Route path='/' element={<Home />} />
 				</Routes>
 			</Suspense>

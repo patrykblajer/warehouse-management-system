@@ -26,7 +26,7 @@ const EditProduct = () => {
 	const submit = async e => {
 		e.preventDefault()
 		axios
-			.put('/products', {
+			.patch(`/products/${id}`, {
 				index: product.index,
 				name: product.name,
 				ean: product.ean,

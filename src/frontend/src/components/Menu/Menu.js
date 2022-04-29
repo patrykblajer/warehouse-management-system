@@ -50,7 +50,7 @@ function Menu() {
 							</NavLink>
 						</li>
 						<li className={`${style.menuListItem} ${style.menuListItemLast}`}>
-							<NavLink to={`/#`}>
+							<NavLink to={`/sysconfig`}>
 								<i className='fas fa-wrench'></i>Konfiguracja systemu
 							</NavLink>
 						</li>

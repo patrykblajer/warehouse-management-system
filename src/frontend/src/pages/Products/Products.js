@@ -4,7 +4,6 @@ import React from 'react'
 import style from './Products.module.scss'
 import { Link } from 'react-router-dom'
 import LoadingIcon from '../../components/UI/LoadingIcon/LoadingIcon'
-import LoadingButton from '../../components/UI/Butttons/LoadingButton'
 import Button from '../../components/UI/Butttons/Button'
 
 function Products() {
@@ -35,19 +34,13 @@ function Products() {
 		return date + ' ' + time
 	}
 
-	let onAddProvider = id => {
-		setLoadingButton(id)
-		deleteHandler(id)
-	}
-
 	const deleteHandler = id => {
-		// setLoading(true)
+		setLoadingButton(id)
 		setTimeout(() => {
 			axios
 				.delete(`/products/${id}`)
 				.then(() => {
 					setProducts(products.filter(x => x.id !== id))
-					// setLoading(false)
 				})
 				.catch(error => {
 					alert(error)
@@ -60,7 +53,7 @@ function Products() {
 	) : (
 		<>
 			<Link to={`/products/add`}>
-				<button className={`btn btn-secondary btn-sm ${style.button}`}>Dodaj nowy produkt</button>
+				<Button icon={<i className='fa-solid fa-plus text-light me-2'></i>} text='Dodaj produkt'></Button>
 			</Link>
 			<table className={`${style.productsTable} table table-striped`}>
 				<thead>
@@ -106,17 +99,14 @@ function Products() {
 								<td>{dateTime()}</td>
 								<td>
 									<Link to={`/products/edit/${product.id}`}>
-										<button className={`btn btn-secondary btn-sm ${style.button}`}>Edytuj</button>
+										<Button text={<i className='fa-solid fa-pen-to-square text-light'></i>}></Button>
 									</Link>
-									{loadingButton == product.id ? (
-										<LoadingButton className={`${style.button}`} buttonText={'Usuwanie'}></LoadingButton>
+									{loadingButton === product.id ? (
+										<Button withLoading={true}></Button>
 									) : (
-										<button
-											type='button'
-											className={`btn btn-secondary btn-sm ${style.button}`}
-											onClick={() => onAddProvider(product.id)}>
-											Usuń
-										</button>
+										<Button
+											onClick={() => deleteHandler(product.id)}
+											text={<i className='fa-solid fa-trash color text-light'></i>}></Button>
 									)}
 								</td>
 							</tr>
