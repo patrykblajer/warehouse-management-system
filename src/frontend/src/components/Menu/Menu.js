@@ -20,7 +20,7 @@ function Menu() {
 							</NavLink>
 						</li>
 						<li className={style.menuListItem}>
-							<NavLink to='/products' className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
+							<NavLink to='/' className={navData => (navData.isActive ? `${style.menuListItemActive}` : '')}>
 								<i className='fa-solid fa-map-pin'></i>Magazyn
 							</NavLink>
 						</li>

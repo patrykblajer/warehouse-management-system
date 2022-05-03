@@ -26,7 +26,6 @@ const AddProduct = () => {
 			.catch(error => {
 				alert(error)
 			})
-		console.log(newProduct)
 		navigate('/products')
 	}
 

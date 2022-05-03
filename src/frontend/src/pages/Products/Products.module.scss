@@ -1,9 +1,30 @@
 .productsTable {
     th {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     td {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+    }
+}
+
+.headerRow {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.topContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+    margin-bottom: 1em;
+    .globalFilter {
+        width: 500px;
+        align-self: center;
+        justify-self: center;
     }
 }
 
