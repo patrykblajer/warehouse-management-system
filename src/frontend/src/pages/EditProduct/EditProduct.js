@@ -15,7 +15,7 @@ const EditProduct = () => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/api/v1/products/${id}`)
+			.get(`/products/${id}`)
 			.then(x => setProduct(x.data))
 
 			.catch(error => {
@@ -26,7 +26,7 @@ const EditProduct = () => {
 	const submit = async e => {
 		e.preventDefault()
 		axios
-			.put('http://localhost:8080/api/v1/products', {
+			.patch(`/products/${id}`, {
 				index: product.index,
 				name: product.name,
 				ean: product.ean,

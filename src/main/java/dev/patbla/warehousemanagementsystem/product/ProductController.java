@@ -36,7 +36,7 @@ public class ProductController {
         return ResponseEntity.ok(productRepository.findById(id).orElseThrow());
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
         productService.updateProduct(id, productDto);
         return ResponseEntity.noContent().build();

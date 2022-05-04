@@ -1,94 +1,210 @@
 import axios from '../../axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import React from 'react'
 import style from './Products.module.scss'
 import { Link } from 'react-router-dom'
+import LoadingIcon from '../../components/UI/LoadingIcon/LoadingIcon'
+import Button from '../../components/UI/Butttons/Button'
+import { useGlobalFilter, useSortBy, useTable } from 'react-table/dist/react-table.development'
+import { GlobalFilter } from './GlobalFilter'
 
 function Products() {
 	const [products, setProducts] = useState([])
+	const [refreshProducts, setRefreshProducts] = useState([])
+	const [loadingIcon, setLoadingIcon] = useState(true)
+	const [loadingButton, setLoadingButton] = useState('')
+
+	const fetchProducts = () => {
+		setTimeout(() => {
+			axios
+				.get('/products')
+				.then(x => setProducts(x.data))
+				.catch(error => {
+					alert(error)
+				})
+				.finally(() => setLoadingIcon(false))
+		}, 300)
+	}
+
+	const deleteHandler = id => {
+		setLoadingButton(id)
+		setTimeout(() => {
+			axios
+				.delete(`/products/${id}`)
+				.then(() => {
+					const productsAfterDelete = productsData.slice(id, 1)
+					setRefreshProducts(productsAfterDelete)
+				})
+				.catch(error => {
+					alert(error)
+				})
+		}, 300)
+	}
+
+	const productsData = useMemo(() => [...products], [products])
+
+	const columns = React.useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id',
+			},
+			{
+				Header: 'Index',
+				accessor: 'index',
+			},
+			{
+				Header: 'Nazwa',
+				accessor: 'name',
+			},
+			{
+				Header: 'EAN',
+				accessor: 'ean',
+			},
+			{
+				Header: 'Kategoria',
+				accessor: 'category.name',
+			},
+			{
+				Header: 'Stan',
+				accessor: 'quantity.available',
+			},
+			{
+				Header: 'J.m.',
+				accessor: 'unit.name',
+			},
+			{
+				Header: 'Ilość w op. zbiorczym',
+				accessor: 'quantity.inCollectivePackage',
+			},
+			{
+				Header: 'Typ op. zbiorczego',
+				accessor: 'packagingType.name',
+			},
+			{
+				Header: 'Ilość na palecie',
+				accessor: 'quantity.stackedOnPallet',
+			},
+			{
+				Header: 'Min. poziom zap.',
+				accessor: 'quantity.minimumLevelOfStocks',
+			},
+			{
+				Header: 'Strefa skł.',
+				accessor: 'location.area.name',
+			},
+			{
+				Header: 'Ost. modyfikacja',
+				accessor: '',
+			},
+		],
+		[]
+	)
+
+	const tableHooks = hooks => {
+		hooks.visibleColumns.push(columns => [
+			...columns,
+			{
+				id: 'Akcje',
+				Header: 'Akcje',
+				Cell: ({ row }) => (
+					<>
+						<Link to={`/products/edit/${row.values.id}`}>
+							<Button text={<i className='fa-solid fa-pen-to-square text-light'></i>}></Button>
+						</Link>
+						{loadingButton === row.values.id ? (
+							<Button withLoading={true}></Button>
+						) : (
+							<Button
+								onClick={() => deleteHandler(row.values.id)}
+								text={<i className='fa-solid fa-trash color text-light'></i>}></Button>
+						)}
+					</>
+				),
+			},
+		])
+	}
+
+	const tableInstance = useTable(
+		{
+			data: productsData,
+			columns,
+		},
+		tableHooks,
+		useGlobalFilter,
+		useSortBy
+	)
+
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+		setGlobalFilter,
+		preGlobalFilteredRows,
+		state,
+	} = tableInstance
 
 	useEffect(() => {
-		axios
-			.get('/products')
-			.then(x => setProducts(x.data))
-			.catch(error => {
-				alert(error)
-			})
-	}, [])
+		fetchProducts()
+	}, [refreshProducts])
 
-	let dateTime = () => {
-		let today = new Date()
-		let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-		let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-		return date + ' ' + time
-	}
-
-	const deleteHandler = async id => {
-		try {
-			await axios.delete(`http://localhost:8080/api/v1/products/${id}`)
-			setProducts(products.filter(x => x.id !== id))
-		} catch (ex) {
-			console.log(ex.response)
-		}
-	}
-
-	return (
+	return loadingIcon ? (
+		<LoadingIcon></LoadingIcon>
+	) : (
 		<>
-			<Link to={`/products/add`}>
-				<button className={`btn btn-secondary btn-sm ${style.button}`}>Dodaj nowy produkt</button>
-			</Link>
-			<table className={`${style.productsTable} table table-striped`}>
+			<div className={`${style.topContainer}`}>
+				<Link to={`/products/add`}>
+					<Button icon={<i className='fa-solid fa-plus text-light me-2'></i>} text='Dodaj produkt'></Button>
+				</Link>
+
+				<div className={style.globalFilter}>
+					<GlobalFilter
+						preGlobalFilteredRows={preGlobalFilteredRows}
+						setGlobalFilter={setGlobalFilter}
+						globalFilter={state.globalFilter}
+					/>
+				</div>
+			</div>
+			{/* apply the table props */}
+			<table className={`${style.productsTable} table table-striped`} {...getTableProps()}>
 				<thead>
-					<tr>
-						<th scope='col'>ID</th>
-						<th scope='col'>Index</th>
-						<th scope='col'>Nazwa</th>
-						<th scope='col'>EAN</th>
-						<th scope='col'>Kategoria</th>
-						<th scope='col'>Stan</th>
-						<th scope='col'>J.m.</th>
-						<th scope='col'>Ilość w op. zbiorczym</th>
-						<th scope='col'>Typ op. zbiorczego</th>
-						<th scope='col'>Ilość na palecie</th>
-						<th scope='col'>Min. poziom zap.</th>
-						<th scope='col'>Strefa skł.</th>
-						<th scope='col'>Miejsce skł.</th>
-						<th scope='col'>Ost. modyfikacja</th>
-						<th scope='col'>Akcje</th>
-					</tr>
+					{// Loop over the header rows
+					headerGroups.map(headerGroup => (
+						// Apply the header row props
+						<tr className={style.headerRow} {...headerGroup.getHeaderGroupProps()}>
+							{// Loop over the headers in each row
+							headerGroup.headers.map(column => (
+								// Apply the header cell props
+								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+									{// Render the header
+									column.render('Header')}
+									<span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+								</th>
+							))}
+						</tr>
+					))}
 				</thead>
-				<tbody>
-					{products.map(product => {
+				{/* Apply the table body props */}
+				<tbody {...getTableBodyProps()}>
+					{// Loop over the table rows
+					rows.map(row => {
+						// Prepare the row for display
+						prepareRow(row)
 						return (
-							<tr key={product.id}>
-								<td>{product.id}</td>
-								<td>{product.index}</td>
-								<td>{product.name}</td>
-								<td>{product.ean}</td>
-								<td>{product.category.name === null ? '' : product.category.name}</td>
-								<td>{product.quantity === null ? '' : product.quantity.available}</td>
-								<td>{product.unit === null ? '' : product.unit.name}</td>
-								<td>{product.quantity === null ? '' : product.quantity.inCollectivePackage}</td>
-								<td>{product.packagingType === null ? '' : product.packagingType.name}</td>
-								<td>{product.quantity === null ? '' : product.quantity.stackedOnPallet}</td>
-								<td>{product.quantity === null ? '' : product.quantity.minimumLevelOfStocks}</td>
-								<td>{product.location === null ? '' : product.location.area.name}</td>
-								<td>
-									{product.location === null
-										? ''
-										: product.location.storageType.name + ', ' + product.location.storageType.rowNum}
-								</td>
-								<td>{dateTime()}</td>
-								<td>
-									<Link to={`/products/edit/${product.id}`}>
-										<button className={`btn btn-secondary btn-sm ${style.button}`}>Edytuj</button>
-									</Link>
-									<button
-										onClick={() => deleteHandler(product.id)}
-										className={`btn btn-secondary btn-sm ${style.button}`}>
-										Usuń
-									</button>
-								</td>
+							// Apply the row props
+							<tr {...row.getRowProps()}>
+								{// Loop over the rows cells
+								row.cells.map(cell => {
+									// Apply the cell props
+									return (
+										<td {...cell.getCellProps()}>
+											{// Render the cell contents
+											cell.render('Cell')}
+										</td>
+									)
+								})}
 							</tr>
 						)
 					})}
