@@ -1,3 +1,4 @@
+$base-color: #00aeef;
 .productsTable {
     th {
         font-size: 0.85rem;
@@ -5,6 +6,11 @@
     td {
         font-size: 0.85rem;
     }
+}
+
+.productsTable tbody tr:hover {
+    transition: box-shadow, 0.2s;
+    box-shadow: 0 1px 9px 1px rgba(0, 0, 0, 0.3);
 }
 
 .headerRow {
@@ -18,7 +24,7 @@
     flex-direction: row;
     width: 100%;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
     .globalFilter {

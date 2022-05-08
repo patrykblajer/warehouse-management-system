@@ -90,10 +90,6 @@ function Products() {
 				accessor: 'quantity.minimumLevelOfStocks',
 			},
 			{
-				Header: 'Strefa skł.',
-				accessor: 'location.area.name',
-			},
-			{
 				Header: 'Ost. modyfikacja',
 				accessor: '',
 			},
@@ -110,7 +106,7 @@ function Products() {
 				Cell: ({ row }) => (
 					<>
 						<Link to={`/products/edit/${row.values.id}`}>
-							<Button text={<i className='fa-solid fa-pen-to-square text-light'></i>}></Button>
+							<Button color={style.button} text={<i className='fa-solid fa-pen-to-square text-light'></i>}></Button>
 						</Link>
 						{loadingButton === row.values.id ? (
 							<Button withLoading={true}></Button>
@@ -168,7 +164,7 @@ function Products() {
 				</div>
 			</div>
 			{/* apply the table props */}
-			<table className={`${style.productsTable} table table-striped`} {...getTableProps()}>
+			<table className={`${style.productsTable} table`} {...getTableProps()}>
 				<thead>
 					{// Loop over the header rows
 					headerGroups.map(headerGroup => (

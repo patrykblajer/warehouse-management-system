@@ -1,0 +1,63 @@
+$base-color: #00aeef;
+.formProduct {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 15px;
+    height: 90vh;
+}
+
+.indexName {
+    margin-left: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.nameInput {
+    width: 600px;
+}
+
+.eanInput {
+    width: 300px;
+}
+
+.nameIndex {
+    width: 300px;
+}
+
+.eanCategory {
+    margin-left: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.titleBar {
+    background-color: $base-color;
+    border-radius: 0.25rem;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 3px 3px;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.form-control {
+    width: 100px;
+}
+
+.categorySelector {
+    width: 400px;
+}
+
+.contractorSelector {
+    width: 600px;
+}
+
+.unitSelector {
+    width: 140px;
+}
