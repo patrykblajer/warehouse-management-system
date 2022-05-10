@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -26,7 +27,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addProduct(@RequestBody ProductToFormDto productToFormDto) {
+    public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductToFormDto productToFormDto) {
         productService.addProduct(productToFormDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

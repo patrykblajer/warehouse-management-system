@@ -1,13 +1,13 @@
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Button from '../../components/UI/Butttons/Button'
-import axios from '../../axios'
-import { useState } from 'react'
-import React from 'react'
 import AsyncSelect from 'react-select/async'
+import axios from '../../axios'
+import Button from '../../components/UI/Butttons/Button'
 import style from './AddProduct.module.scss'
 
 const AddProduct = () => {
 	const navigate = useNavigate()
+	let [errorData, setErrorData] = useState([])
 	const [newProduct, setNewProduct] = useState({
 		index: '',
 		name: '',
@@ -24,7 +24,7 @@ const AddProduct = () => {
 
 	const submit = async e => {
 		e.preventDefault()
-		axios
+		let res = axios
 			.post('/products', {
 				index: newProduct.index,
 				name: newProduct.name,
@@ -38,10 +38,9 @@ const AddProduct = () => {
 				preferredPalletType: newProduct.preferredPalletType,
 				description: newProduct.description,
 			})
-			.catch(error => {
-				alert(error)
+			.catch(err => {
+				setErrorData(err.response.data.errors)
 			})
-		navigate('/products')
 	}
 
 	const handleInput = e => {
@@ -232,7 +231,6 @@ const AddProduct = () => {
 					placeholder='Wybierz rodzaj palety'
 					cacheOptions
 					defaultOptions
-					required={true}
 					getOptionLabel={e => e.name}
 					getOptionValue={e => e.name}
 					loadOptions={fetchPallets}
@@ -248,7 +246,6 @@ const AddProduct = () => {
 					onChange={e => handleInput(e)}
 					value={newProduct.minimumLevelOfStocks}
 					type='number'
-					required={true}
 					className={`form-control ${style.minimumLevelOfStocks}`}
 				/>
 			</div>
