@@ -1,0 +1,86 @@
+.formProduct {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  font-size: 15px;
+  height: 90vh;
+}
+
+.indexName {
+  margin-left: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 20px;
+}
+
+.nameInput {
+  width: 600px;
+}
+
+.eanInput {
+  width: 300px;
+}
+
+.nameIndex {
+  width: 300px;
+}
+
+.eanCategory {
+  margin-left: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 20px;
+}
+
+.titleBar {
+  background-color: #00aeef;
+  border-radius: 0.25rem;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 3px 3px;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+
+.form-control {
+  width: 100px;
+}
+
+.categorySelector {
+  width: 400px;
+}
+
+.contractorSelector {
+  width: 600px;
+}
+
+.unitSelector {
+  width: 140px;
+}
+
+.textError {
+  color: red;
+}
+/*# sourceMappingURL=AddProduct.module.css.map */
