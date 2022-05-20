@@ -1,10 +1,11 @@
 package dev.patbla.warehousemanagementsystem.product;
 
-import dev.patbla.warehousemanagementsystem.product.dtos.ProductDto;
+import dev.patbla.warehousemanagementsystem.product.dtos.ProductToFormDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -26,8 +27,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addProduct(@RequestBody ProductDto productDto) {
-        productService.addProduct(productDto);
+    public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductToFormDto productToFormDto) {
+        productService.addProduct(productToFormDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -37,8 +38,8 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        productService.updateProduct(id, productDto);
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductToFormDto productToFormDto) {
+        productService.updateProduct(id, productToFormDto);
         return ResponseEntity.noContent().build();
     }
 

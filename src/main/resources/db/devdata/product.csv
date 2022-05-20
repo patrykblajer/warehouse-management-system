@@ -1,8 +1,8 @@
-index;name;ean;quantity_id;unit_id;category_id;packaging_type_id;location_id
-MIAR_3m_3201;miara składana 3m;9669274409615;1;1;1;2;1
-MO377WHITE;biały marker olejowy;1376210790345;2;1;2;1;
-64867P;piła płatnica 500mm 7zebow/cal;6370807533273;3;1;2;1;
-wodo12kpl;Zestaw łączników do wodomierza 1/2;0916666708764;4;1;2;1;
-KM5141-50;pędzel tapetowy 50mm;1284012012667;5;1;2;1;
-wpt-1z;wyłącznik światła podtynkowy pojedynczy biały ZET;5489083646995;6;1;2;2;
-wts32x5;wtyczka siłowa 32A/5 bolców;4524902075301;7;1;1;0;
+index;name;ean;quantity_id;unit_id;category_id;packaging_type_id;location_id;preferred_pallet_type_id;description
+MIAR_3m_3201;miara składana 3m;9669274409615;1;1;1;2;1;1;bmwbmwbmw
+MO377WHITE;biały marker olejowy;1376210790345;2;1;2;1;;;
+64867P;piła płatnica 500mm 7zebow/cal;6370807533273;3;1;2;1;;;
+wodo12kpl;Zestaw łączników do wodomierza 1/2;0916666708764;4;1;2;1;;;
+KM5141-50;pędzel tapetowy 50mm;1284012012667;5;1;2;1;;;
+wpt-1z;wyłącznik światła podtynkowy pojedynczy biały ZET;5489083646995;6;1;2;2;;;
+wts32x5;wtyczka siłowa 32A/5 bolców;4524902075301;7;1;1;0;;;

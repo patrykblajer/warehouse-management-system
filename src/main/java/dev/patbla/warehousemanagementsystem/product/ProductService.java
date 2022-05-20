@@ -1,7 +1,11 @@
 package dev.patbla.warehousemanagementsystem.product;
 
 import dev.patbla.warehousemanagementsystem.product.category.CategoryRepository;
-import dev.patbla.warehousemanagementsystem.product.dtos.ProductDto;
+import dev.patbla.warehousemanagementsystem.product.dtos.ProductToFormDto;
+import dev.patbla.warehousemanagementsystem.product.packagingtype.PackagingTypeRepository;
+import dev.patbla.warehousemanagementsystem.product.pallet.PalletRepository;
+import dev.patbla.warehousemanagementsystem.product.quantity.Quantity;
+import dev.patbla.warehousemanagementsystem.product.unit.UnitRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,31 +15,47 @@ import javax.transaction.Transactional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final UnitRepository unitRepository;
+    private final PackagingTypeRepository packagingTypeRepository;
+    private final PalletRepository palletRepository;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
+                          UnitRepository unitRepository, PackagingTypeRepository packagingTypeRepository, PalletRepository palletRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.unitRepository = unitRepository;
+        this.packagingTypeRepository = packagingTypeRepository;
+        this.palletRepository = palletRepository;
     }
 
     @Transactional
-    public void addProduct(ProductDto productDto) {
-        var category = categoryRepository.findCategoryByName(productDto.getCategory()).orElseThrow();
-        var product = Product.builder()
-                .index(productDto.getIndex())
-                .name(productDto.getName())
-                .ean(productDto.getEan())
+    public void addProduct(ProductToFormDto productToFormDto) {
+        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory()).orElseThrow();
+        var unit = unitRepository.findUnitByName(productToFormDto.getUnit()).orElseThrow();
+        var packagingType = packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType()).orElseThrow();
+        var pallet = palletRepository.findPalletByName(productToFormDto.getPreferredPalletType()).orElseThrow();
+        var productToAdd = Product.builder()
+                .index(productToFormDto.getIndex())
+                .name(productToFormDto.getName())
+                .ean(productToFormDto.getEan())
                 .category(category)
+                .unit(unit)
+                .packagingType(packagingType)
+                .preferredPalletType(pallet)
                 .build();
-        productRepository.save(product);
+        productRepository.save(productToAdd);
+        var quantity = new Quantity(productToFormDto.getInCollectivePackage(), productToFormDto.getStackedOnPallet(),
+                productToFormDto.getMinimumLevelOfStocks());
+        productToAdd.setQuantity(quantity);
     }
 
     @Transactional
-    public void updateProduct(Long id, ProductDto productDto) {
-        var category = categoryRepository.findCategoryByName(productDto.getCategory()).orElseThrow();
+    public void updateProduct(Long id, ProductToFormDto productToFormDto) {
+        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory()).orElseThrow();
         var product = productRepository.findById(id).orElseThrow();
-        product.setIndex(productDto.getIndex());
-        product.setName(productDto.getName());
-        product.setEan(productDto.getEan());
+        product.setIndex(productToFormDto.getIndex());
+        product.setName(productToFormDto.getName());
+        product.setEan(productToFormDto.getEan());
         product.setCategory(category);
     }
 }

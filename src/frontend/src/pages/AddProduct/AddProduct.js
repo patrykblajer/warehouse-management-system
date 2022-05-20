@@ -1,97 +1,137 @@
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Button from '../../components/UI/Butttons/Button'
 import axios from '../../axios'
-import { useState } from 'react'
-import React from 'react'
-import AsyncSelect from 'react-select/async'
+import Button from '../../components/UI/Butttons/Button'
+import style from './AddProduct.module.scss'
+import { Formik, Form } from 'formik'
+import { TextField as InputField } from '../../components/UI/FormValidation/InputField'
+import { SelectField } from '../../components/UI/FormValidation/SelectField'
+import * as Yup from 'yup'
 
 const AddProduct = () => {
 	const navigate = useNavigate()
-	const [newProduct, setNewProduct] = useState({
-		index: '',
-		name: '',
-		ean: '',
-		category: '',
-	})
+	let [errorData, setErrorData] = useState([])
 
-	const submit = async e => {
-		e.preventDefault()
-		axios
-			.post('/products', {
-				index: newProduct.index,
-				name: newProduct.name,
-				ean: newProduct.ean,
-				category: newProduct.category,
-			})
-			.catch(error => {
-				alert(error)
-			})
+	const availableRules = {
+		required: { message: 'Pole jest wymagane.' },
+		maxLength: { max: 15, message: 'Przekroczono dopuszczalną ilość znaków.' },
+		maxTwoDecimalPlaces: {
+			regex: /^\d+(\.\d{1,2})?$/,
+			message: 'Dopuszczalna wartość do drugiego miejsca po przecinku.',
+		},
+		maxNumber: {
+			max: 8,
+			message: 'Podana wartość jest nieprawidłowa.',
+		},
+	}
+
+	const submit = values => {
+		axios.post('/products', values).catch(err => {
+			setErrorData(err.response.data.errors)
+		})
 		navigate('/products')
 	}
 
-	const handleInput = e => {
-		const data = { ...newProduct }
-		data[e.target.id] = e.target.value
-		setNewProduct(data)
-	}
-
-	const handleSelect = value => {
-		newProduct.category = value.name
-	}
-
-	const fetchCategories = async () => {
-		return await axios.get('/categories').then(result => {
+	const fetchSelectOptions = async endPoint => {
+		return await axios.get(`${endPoint}`).then(result => {
 			return result.data
 		})
 	}
 
-	const filterOption = (candidate, input) => {
-		return candidate.data.__isNew__ || candidate.label.includes(input)
-	}
+	const validate = Yup.object({
+		name: Yup.string()
+			.max(availableRules.maxLength.max, availableRules.maxLength.message)
+			.required(availableRules.required.message),
+		index: Yup.string()
+			.max(availableRules.maxLength.max, availableRules.maxLength.message)
+			.required(availableRules.required.message),
+		ean: Yup.string()
+			.max(availableRules.maxLength.max, availableRules.maxLength.message)
+			.required(availableRules.required.message),
+
+		category: Yup.string().required(availableRules.required.message),
+		unit: Yup.string().required(availableRules.required.message),
+		packagingType: Yup.string().required(availableRules.required.message),
+		preferredPalletType: Yup.string().required(availableRules.required.message),
+		inCollectivePackage: Yup.string()
+			.required(availableRules.required.message)
+			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
+			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
+		stackedOnPallet: Yup.string()
+			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
+			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
+		minimumLevelOfStocks: Yup.string()
+			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
+			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
+	})
 
 	return (
-		<form onSubmit={submit}>
-			<div className='mb-3'>
-				<label htmlFor='productIndex' className='form-label'>
-					Indeks produktu:
-				</label>
-				<input
-					onChange={e => handleInput(e)}
-					value={newProduct.index}
-					type='text'
-					className='form-control'
-					id='index'
-				/>
-			</div>
-			<div className='mb-3'>
-				<label htmlFor='productName' className='form-label'>
-					Nazwa produktu:
-				</label>
-				<input onChange={e => handleInput(e)} value={newProduct.name} type='text' className='form-control' id='name' />
-			</div>
-			<div className='mb-3'>
-				<label htmlFor='productEan' className='form-label'>
-					Ean produktu:
-				</label>
-				<input onChange={e => handleInput(e)} value={newProduct.ean} type='text' className='form-control' id='ean' />
-			</div>
-			<div className='mb-3'>
-				<label htmlFor='productEan' className='form-label'>
-					Kategoria:
-				</label>
-				<AsyncSelect
-					placeholder='Wybierz kategorię'
-					cacheOptions
-					defaultOptions
-					getOptionLabel={e => e.name}
-					getOptionValue={e => e.name}
-					loadOptions={fetchCategories}
-					onChange={handleSelect}
-					filterOption={filterOption}
-				/>
-			</div>
-			<Button type='submit' text='Zapisz'></Button>
-		</form>
+		<Formik
+			onSubmit={values => submit(values)}
+			className={style.formProduct}
+			initialValues={{
+				index: '',
+				name: '',
+				ean: '',
+				category: '',
+				unit: '',
+				packagingType: '',
+				inCollectivePackage: '',
+				stackedOnPallet: '',
+				minimumLevelOfStocks: '',
+				preferredPalletType: '',
+			}}
+			validationSchema={validate}>
+			{formik => (
+				<Form>
+					<div className={style.titleBar}>Dane podstawowe</div>
+					<div className={style.indexName}></div>
+					<InputField label='Index' name='index' type='text' />
+					<InputField label='Nazwa' name='name' type='text' />
+					<InputField label='Numer EAN' name='ean' type='text' />
+					<SelectField
+						label='Kategoria'
+						name='category'
+						className={style.categorySelector}
+						placeholder='Wybierz kategorię'
+						loadOptions={() => fetchSelectOptions('/categories')}
+					/>
+					<SelectField
+						label='Jednostka miary'
+						name='unit'
+						className={style.categorySelector}
+						placeholder='Wybierz jednostkę'
+						loadOptions={() => fetchSelectOptions('/units')}
+					/>
+					<SelectField
+						label='Typ opakowania'
+						name='packagingType'
+						className={style.categorySelector}
+						placeholder='Wybierz opakowanie'
+						loadOptions={() => fetchSelectOptions('/packagingtype')}
+					/>
+					<SelectField
+						label='Preferowany typ palety'
+						name='preferredPalletType'
+						className={style.categorySelector}
+						placeholder='Wybierz rodzaj palety'
+						loadOptions={() => fetchSelectOptions('/pallets')}
+					/>
+					<InputField
+						label='Ilość w opakowaniu zbiorczym'
+						min='0'
+						step='any'
+						name='inCollectivePackage'
+						type='number'
+					/>
+					<InputField label='Ilość opakowań na palecie' min='0' step='any' name='stackedOnPallet' type='number' />
+					<InputField label='Minimalny poziom zapasów' min='0' step='any' name='minimumLevelOfStocks' type='number' />
+					<div>
+						<Button type='submit' text='Zapisz'></Button>
+					</div>
+				</Form>
+			)}
+		</Formik>
 	)
 }
 

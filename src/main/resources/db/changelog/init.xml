@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!--    INIT -->
+    <include file="product.xml" relativeToChangelogFile="true"/>
+    <include file="quantity.xml" relativeToChangelogFile="true"/>
+    <include file="category.xml" relativeToChangelogFile="true"/>
+    <include file="unit.xml" relativeToChangelogFile="true"/>
+    <include file="packaging-type.xml" relativeToChangelogFile="true"/>
+    <include file="storage-type.xml" relativeToChangelogFile="true"/>
+    <include file="area.xml" relativeToChangelogFile="true"/>
+    <include file="location.xml" relativeToChangelogFile="true"/>
+    <include file="pallet.xml" relativeToChangelogFile="true"/>
+<!--    <include file="999-foreign-keys.xml" relativeToChangelogFile="true"/>-->
+
+    <!--    DEV-->
+    <include file="../devdata/init-dev-data.xml" context="dev" relativeToChangelogFile="true"/>
+</databaseChangeLog>

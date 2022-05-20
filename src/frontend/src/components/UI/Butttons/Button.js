@@ -7,7 +7,7 @@ export default function Button(props) {
 			<span className='spinner-border spinner-border-sm text-light' role='status' aria-hidden='true'></span>
 		</button>
 	) : (
-		<button type={props.type} onClick={props.onClick} className={`btn btn-primary ${style.button} m-1`}>
+		<button type={props.type} onClick={props.onClick} className={`btn btn-primary ${style.button} m-1 ${props.color}`}>
 			{props.icon}
 			{props.text}
 		</button>
