@@ -4,26 +4,13 @@ import axios from '../../axios'
 import Button from '../../components/UI/Butttons/Button'
 import style from './AddProduct.module.scss'
 import { Formik, Form } from 'formik'
-import { TextField as InputField } from '../../components/UI/FormValidation/InputField'
+import { InputField } from '../../components/UI/FormValidation/InputField'
 import { SelectField } from '../../components/UI/FormValidation/SelectField'
-import * as Yup from 'yup'
+import { getProductFormValidationSchema } from '../../components/UI/FormValidation/ValidationSchemas'
 
 const AddProduct = () => {
 	const navigate = useNavigate()
 	let [errorData, setErrorData] = useState([])
-
-	const availableRules = {
-		required: { message: 'Pole jest wymagane.' },
-		maxLength: { max: 15, message: 'Przekroczono dopuszczalną ilość znaków.' },
-		maxTwoDecimalPlaces: {
-			regex: /^\d+(\.\d{1,2})?$/,
-			message: 'Dopuszczalna wartość do drugiego miejsca po przecinku.',
-		},
-		maxNumber: {
-			max: 8,
-			message: 'Podana wartość jest nieprawidłowa.',
-		},
-	}
 
 	const submit = values => {
 		axios.post('/products', values).catch(err => {
@@ -37,33 +24,6 @@ const AddProduct = () => {
 			return result.data
 		})
 	}
-
-	const validate = Yup.object({
-		name: Yup.string()
-			.max(availableRules.maxLength.max, availableRules.maxLength.message)
-			.required(availableRules.required.message),
-		index: Yup.string()
-			.max(availableRules.maxLength.max, availableRules.maxLength.message)
-			.required(availableRules.required.message),
-		ean: Yup.string()
-			.max(availableRules.maxLength.max, availableRules.maxLength.message)
-			.required(availableRules.required.message),
-
-		category: Yup.string().required(availableRules.required.message),
-		unit: Yup.string().required(availableRules.required.message),
-		packagingType: Yup.string().required(availableRules.required.message),
-		preferredPalletType: Yup.string().required(availableRules.required.message),
-		inCollectivePackage: Yup.string()
-			.required(availableRules.required.message)
-			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
-			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
-		stackedOnPallet: Yup.string()
-			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
-			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
-		minimumLevelOfStocks: Yup.string()
-			.matches(availableRules.maxTwoDecimalPlaces.regex, availableRules.maxTwoDecimalPlaces.message)
-			.max(availableRules.maxNumber.max, availableRules.maxNumber.message),
-	})
 
 	return (
 		<Formik
@@ -81,7 +41,7 @@ const AddProduct = () => {
 				minimumLevelOfStocks: '',
 				preferredPalletType: '',
 			}}
-			validationSchema={validate}>
+			validationSchema={getProductFormValidationSchema}>
 			{formik => (
 				<Form>
 					<div className={style.titleBar}>Dane podstawowe</div>

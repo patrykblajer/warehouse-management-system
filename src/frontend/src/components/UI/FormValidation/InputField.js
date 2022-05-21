@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { useField } from 'formik'
 import { ErrorMessageWrapper } from './ErrorMessageWrapper'
 
-export const TextField = ({ label, ...props }) => {
+export const InputField = ({ label, ...props }) => {
 	const [field, meta] = useField(props)
+	const id = useId()
 	return (
 		<div>
-			<label htmlFor={field.name}>{label}</label>
+			<label htmlFor={id}>{label}</label>
 			<input
+				id={id}
 				className={`form-control shadow-none ${meta.touched && meta.error && 'is-invalid'}`}
 				{...field}
 				{...props}
