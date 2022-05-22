@@ -3,15 +3,17 @@ import { useField } from 'formik'
 import { ErrorMessageWrapper } from './ErrorMessageWrapper'
 import { Form } from 'react-bootstrap'
 
-export const InputField = ({ label, ...props }) => {
+export const TextAreaField = ({ label, ...props }) => {
 	const [field, meta] = useField(props)
 	const id = useId()
 	return (
 		<div>
 			<Form.Label htmlFor={id}>{label}</Form.Label>
 			<Form.Control
+				as='textarea'
 				id={id}
-				className={`form-control shadow-none ${meta.touched && meta.error && 'is-invalid'}`}
+				className={`${meta.touched && meta.error}`}
+				type='textarea'
 				{...field}
 				{...props}
 				autoComplete='off'

@@ -2,6 +2,7 @@ import React, { useId } from 'react'
 import { useField } from 'formik'
 import AsyncSelect from 'react-select/async'
 import { ErrorMessageWrapper } from './ErrorMessageWrapper'
+import { Form } from 'react-bootstrap'
 
 export const SelectField = ({ label, ...props }) => {
 	const [field, meta, { setValue, setTouched }] = useField(props)
@@ -16,19 +17,21 @@ export const SelectField = ({ label, ...props }) => {
 
 	return (
 		<div>
-			<label htmlFor={id}>{label}</label>
-			<AsyncSelect
-				id={id}
-				className={`form-control shadow-none ${meta.touched && meta.error && 'is-invalid'}`}
-				{...props}
-				cacheOptions
-				defaultOptions
-				getOptionLabel={e => e.name}
-				getOptionValue={e => e.name}
-				filterOption={filterOption}
-				onChange={onChange}
-				onBlur={setTouched}
-			/>
+			<Form.Label htmlFor={id}>{label}</Form.Label>
+			<Form.Group>
+				<AsyncSelect
+					id={id}
+					className={meta.touched && meta.error}
+					{...props}
+					cacheOptions
+					defaultOptions
+					getOptionLabel={e => e.name}
+					getOptionValue={e => e.name}
+					filterOption={filterOption}
+					onChange={onChange}
+					onBlur={setTouched}
+				/>
+			</Form.Group>
 			<ErrorMessageWrapper name={field.name}></ErrorMessageWrapper>
 		</div>
 	)
