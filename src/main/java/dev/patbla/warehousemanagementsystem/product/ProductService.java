@@ -19,8 +19,7 @@ public class ProductService {
     private final PackagingTypeRepository packagingTypeRepository;
     private final PalletRepository palletRepository;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
-                          UnitRepository unitRepository, PackagingTypeRepository packagingTypeRepository, PalletRepository palletRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, UnitRepository unitRepository, PackagingTypeRepository packagingTypeRepository, PalletRepository palletRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.unitRepository = unitRepository;
@@ -32,21 +31,25 @@ public class ProductService {
     public void addProduct(ProductToFormDto productToFormDto) {
         var category = categoryRepository.findCategoryByName(productToFormDto.getCategory()).orElseThrow();
         var unit = unitRepository.findUnitByName(productToFormDto.getUnit()).orElseThrow();
-        var packagingType = packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType()).orElseThrow();
-        var pallet = palletRepository.findPalletByName(productToFormDto.getPreferredPalletType()).orElseThrow();
         var productToAdd = Product.builder()
                 .index(productToFormDto.getIndex())
                 .name(productToFormDto.getName())
                 .ean(productToFormDto.getEan())
                 .category(category)
                 .unit(unit)
-                .packagingType(packagingType)
-                .preferredPalletType(pallet)
                 .build();
         productRepository.save(productToAdd);
         var quantity = new Quantity(productToFormDto.getInCollectivePackage(), productToFormDto.getStackedOnPallet(),
                 productToFormDto.getMinimumLevelOfStocks());
         productToAdd.setQuantity(quantity);
+
+        if (!productToFormDto.getPreferredPalletType().equals("")) {
+            productToAdd.setPreferredPalletType(palletRepository.findPalletByName(productToFormDto.getPreferredPalletType()).orElseThrow());
+        }
+
+        if (!productToFormDto.getPackagingType().equals("")) {
+            productToAdd.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType()).orElseThrow());
+        }
     }
 
     @Transactional
