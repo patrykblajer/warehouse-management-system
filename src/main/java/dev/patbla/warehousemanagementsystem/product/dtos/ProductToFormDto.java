@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Getter
@@ -20,15 +21,15 @@ public class ProductToFormDto {
     @Length(max = 255, message = "The maximum number of characters is 256.")
     private String name;
     private String ean;
-    @NotBlank(message = "This field cannot be blank.")
-    private String category;
-    @NotBlank(message = "This field cannot be blank.")
-    private String unit;
-    private String packagingType;
+    @NotNull(message = "This field cannot be null.")
+    private CategoryDto category;
+    @NotNull(message = "This field cannot be null.")
+    private UnitDto unit;
+    private PackagingTypeDto packagingType;
     @Max(value = 1_000_000, message = "The number is too large.")
     @Min(value = 0, message = "The number cannot be less than zero")
     private double inCollectivePackage;
-    private String preferredPalletType;
+    private PreferredPalletTypeDto preferredPalletType;
     @Max(value = 1_000_000, message = "The number is too large.")
     @Min(value = 0, message = "The number cannot be less than zero")
     private double stackedOnPallet;
