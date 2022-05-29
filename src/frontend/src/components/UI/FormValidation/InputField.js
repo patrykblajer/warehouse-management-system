@@ -1,7 +1,7 @@
-import React, { useId } from 'react'
-import { useField } from 'formik'
-import { ErrorMessageWrapper } from './ErrorMessageWrapper'
-import { Form } from 'react-bootstrap'
+import React, {useId} from 'react'
+import {useField} from 'formik'
+import {ErrorMessageWrapper} from './ErrorMessageWrapper'
+import {Form} from 'react-bootstrap'
 
 export const InputField = ({ label, ...props }) => {
 	const [field, meta] = useField(props)

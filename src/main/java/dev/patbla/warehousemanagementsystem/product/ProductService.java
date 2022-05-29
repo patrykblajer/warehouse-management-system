@@ -29,12 +29,13 @@ public class ProductService {
 
     @Transactional
     public void addProduct(ProductToFormDto productToFormDto) {
-        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory()).orElseThrow();
-        var unit = unitRepository.findUnitByName(productToFormDto.getUnit()).orElseThrow();
+        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory().getName()).orElseThrow();
+        var unit = unitRepository.findUnitByName(productToFormDto.getUnit().getName()).orElseThrow();
         var productToAdd = Product.builder()
                 .index(productToFormDto.getIndex())
                 .name(productToFormDto.getName())
                 .ean(productToFormDto.getEan())
+                .description(productToFormDto.getDescription())
                 .category(category)
                 .unit(unit)
                 .build();
@@ -43,22 +44,37 @@ public class ProductService {
                 productToFormDto.getMinimumLevelOfStocks());
         productToAdd.setQuantity(quantity);
 
-        if (!productToFormDto.getPreferredPalletType().equals("")) {
-            productToAdd.setPreferredPalletType(palletRepository.findPalletByName(productToFormDto.getPreferredPalletType()).orElseThrow());
+        if (productToFormDto.getPreferredPalletType() != null) {
+            productToAdd.setPreferredPalletType(palletRepository.findPalletByName(productToFormDto.getPreferredPalletType().getName()).orElseThrow());
         }
 
-        if (!productToFormDto.getPackagingType().equals("")) {
-            productToAdd.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType()).orElseThrow());
+        if (productToFormDto.getPackagingType() != null) {
+            productToAdd.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType().getName()).orElseThrow());
         }
     }
 
     @Transactional
     public void updateProduct(Long id, ProductToFormDto productToFormDto) {
-        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory()).orElseThrow();
+        var category = categoryRepository.findCategoryByName(productToFormDto.getCategory().getName()).orElseThrow();
         var product = productRepository.findById(id).orElseThrow();
+        var unit = unitRepository.findUnitByName(productToFormDto.getUnit().getName()).orElseThrow();
         product.setIndex(productToFormDto.getIndex());
         product.setName(productToFormDto.getName());
         product.setEan(productToFormDto.getEan());
         product.setCategory(category);
+        product.setUnit(unit);
+        product.setDescription(productToFormDto.getDescription());
+
+        product.getQuantity().setInCollectivePackage(productToFormDto.getInCollectivePackage());
+        product.getQuantity().setMinimumLevelOfStocks(productToFormDto.getMinimumLevelOfStocks());
+        product.getQuantity().setStackedOnPallet(productToFormDto.getStackedOnPallet());
+
+        if (productToFormDto.getPreferredPalletType() != null) {
+            product.setPreferredPalletType(palletRepository.findPalletByName(productToFormDto.getPreferredPalletType().getName()).orElseThrow());
+        }
+
+        if (productToFormDto.getPackagingType() != null) {
+            product.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType().getName()).orElseThrow());
+        }
     }
 }
