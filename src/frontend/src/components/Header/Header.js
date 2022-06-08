@@ -8,7 +8,7 @@ function Header(props) {
 					<i className='fa-solid fa-briefcase'></i>Administrator systemu
 				</div>
 				<div className={style.accountInfoItem}>
-					<i className='fa-solid fa-user'></i>John Doe (ID: 1)
+					<i className='fa-solid fa-appUser'></i>John Doe (ID: 1)
 				</div>
 				<div className={style.accountInfoItem}>
 					<a href='/settings' title='wyloguj'>

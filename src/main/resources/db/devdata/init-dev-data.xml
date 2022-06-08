@@ -42,5 +42,17 @@
                   separator=";"
                   tableName="product">
         </loadData>
+        <loadData file="db/devdata/role.csv"
+                  separator=";"
+                  tableName="role">
+        </loadData>
+        <loadData file="db/devdata/app-user.csv"
+                  separator=";"
+                  tableName="app_user">
+        </loadData>
+        <loadData file="db/devdata/user-role.csv"
+                  separator=";"
+                  tableName="user_role">
+        </loadData>
     </changeSet>
 </databaseChangeLog>

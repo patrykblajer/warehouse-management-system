@@ -15,6 +15,9 @@
     <include file="area.xml" relativeToChangelogFile="true"/>
     <include file="location.xml" relativeToChangelogFile="true"/>
     <include file="pallet.xml" relativeToChangelogFile="true"/>
+    <include file="role.xml" relativeToChangelogFile="true"/>
+    <include file="app-user.xml" relativeToChangelogFile="true"/>
+    <include file="user-role.xml" relativeToChangelogFile="true"/>
 <!--    <include file="999-foreign-keys.xml" relativeToChangelogFile="true"/>-->
 
     <!--    DEV-->
