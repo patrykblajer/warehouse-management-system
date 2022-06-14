@@ -3,6 +3,7 @@ package dev.patbla.warehousemanagementsystem.product;
 import dev.patbla.warehousemanagementsystem.product.dtos.ProductToFormDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,11 +23,13 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('administrator')")
     public ResponseEntity<List<Product>> findAll() {
         return ResponseEntity.ok(productRepository.findAllProducts());
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('administrator')")
     public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductToFormDto productToFormDto) {
         productService.addProduct(productToFormDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -38,12 +41,14 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('administrator')")
     public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductToFormDto productToFormDto) {
         productService.updateProduct(id, productToFormDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('administrator')")
     public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return ResponseEntity.noContent().build();

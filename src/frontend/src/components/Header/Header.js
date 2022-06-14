@@ -1,6 +1,9 @@
 import style from './Header.module.scss'
 import React from 'react'
-function Header(props) {
+import { useContext } from 'react'
+import AuthContext from '../../context/AuthContext'
+function Header() {
+	const { firstName } = useContext(AuthContext)
 	return (
 		<div className={style.topBar}>
 			<div className={style.accountContainer}>
@@ -8,7 +11,8 @@ function Header(props) {
 					<i className='fa-solid fa-briefcase'></i>Administrator systemu
 				</div>
 				<div className={style.accountInfoItem}>
-					<i className='fa-solid fa-appUser'></i>John Doe (ID: 1)
+					<i className='fa-solid fa-user'></i>
+					{firstName} (ID: 1)
 				</div>
 				<div className={style.accountInfoItem}>
 					<a href='/settings' title='wyloguj'>

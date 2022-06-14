@@ -1,14 +1,14 @@
 import axios from '../../axios'
-import { useEffect, useState, useMemo } from 'react'
-import React from 'react'
 import style from './Products.module.scss'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import LoadingIcon from '../../components/UI/LoadingIcon/LoadingIcon'
 import Button from '../../components/UI/Butttons/Button'
-import { useGlobalFilter, useSortBy, useTable } from 'react-table/dist/react-table.development'
-import { GlobalFilter } from './GlobalFilter'
+import {useGlobalFilter, useSortBy, useTable} from 'react-table/dist/react-table.development'
+import {GlobalFilter} from './GlobalFilter'
+import authHeader from '../../helpers/authHeader'
+import {useEffect, useMemo, useState} from "react";
 
-function Products() {
+const Products = () => {
 	const [products, setProducts] = useState([])
 	const [refreshProducts, setRefreshProducts] = useState([])
 	const [loadingIcon, setLoadingIcon] = useState(true)
@@ -17,7 +17,7 @@ function Products() {
 	const fetchProducts = () => {
 		setTimeout(() => {
 			axios
-				.get('/products')
+				.get('/products', { headers: authHeader() })
 				.then(x => setProducts(x.data))
 				.catch(error => {
 					alert(error)
@@ -30,7 +30,7 @@ function Products() {
 		setLoadingButton(id)
 		setTimeout(() => {
 			axios
-				.delete(`/products/${id}`)
+				.delete(`/products/${id}`, { headers: authHeader() })
 				.then(() => {
 					const productsAfterDelete = productsData.slice(id, 1)
 					setRefreshProducts(productsAfterDelete)
@@ -43,7 +43,7 @@ function Products() {
 
 	const productsData = useMemo(() => [...products], [products])
 
-	const columns = React.useMemo(
+	const columns = useMemo(
 		() => [
 			{
 				Header: 'ID',
@@ -166,44 +166,56 @@ function Products() {
 			{/* apply the table props */}
 			<table className={`${style.productsTable} table`} {...getTableProps()}>
 				<thead>
-					{// Loop over the header rows
-					headerGroups.map(headerGroup => (
-						// Apply the header row props
-						<tr className={style.headerRow} {...headerGroup.getHeaderGroupProps()}>
-							{// Loop over the headers in each row
-							headerGroup.headers.map(column => (
-								// Apply the header cell props
-								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
-									{// Render the header
-									column.render('Header')}
-									<span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
-								</th>
-							))}
-						</tr>
-					))}
+					{
+						// Loop over the header rows
+						headerGroups.map(headerGroup => (
+							// Apply the header row props
+							<tr className={style.headerRow} {...headerGroup.getHeaderGroupProps()}>
+								{
+									// Loop over the headers in each row
+									headerGroup.headers.map(column => (
+										// Apply the header cell props
+										<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+											{
+												// Render the header
+												column.render('Header')
+											}
+											<span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+										</th>
+									))
+								}
+							</tr>
+						))
+					}
 				</thead>
 				{/* Apply the table body props */}
 				<tbody {...getTableBodyProps()}>
-					{// Loop over the table rows
-					rows.map(row => {
-						// Prepare the row for display
-						prepareRow(row)
-						return (
-							// Apply the row props
-							<tr {...row.getRowProps()}>
-								{// Loop over the rows cells
-								row.cells.map(cell => {
-									// Apply the cell props
-									return (
-										<td {...cell.getCellProps()}>
-											{// Render the cell contents
-											cell.render('Cell')}
-										</td>
-									)
-								})}
-							</tr>
-						)
-					})}
+					{
+						// Loop over the table rows
+						rows.map(row => {
+							// Prepare the row for display
+							prepareRow(row)
+							return (
+								// Apply the row props
+								<tr {...row.getRowProps()}>
+									{
+										// Loop over the rows cells
+										row.cells.map(cell => {
+											// Apply the cell props
+											return (
+												<td {...cell.getCellProps()}>
+													{
+														// Render the cell contents
+														cell.render('Cell')
+													}
+												</td>
+											)
+										})
+									}
+								</tr>
+							)
+						})
+					}
 				</tbody>
 			</table>
 		</>

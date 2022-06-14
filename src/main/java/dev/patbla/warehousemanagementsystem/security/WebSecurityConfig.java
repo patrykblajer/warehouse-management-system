@@ -47,8 +47,7 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/auth/*").permitAll()
-                .antMatchers("/api/v1/products").hasAuthority("administrator")
+                .antMatchers("/api/v1/auth/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

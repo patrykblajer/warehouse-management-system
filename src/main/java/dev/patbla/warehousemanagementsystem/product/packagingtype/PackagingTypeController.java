@@ -1,6 +1,7 @@
 package dev.patbla.warehousemanagementsystem.product.packagingtype;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class PackagingTypeController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('administrator')")
     public ResponseEntity<List<PackagingType>> findAll() {
         return ResponseEntity.ok(packagingTypeRepository.findAll());
     }
