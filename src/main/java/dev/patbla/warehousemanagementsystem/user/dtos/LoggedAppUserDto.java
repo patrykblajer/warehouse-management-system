@@ -7,7 +7,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUserBasicInfoDto {
+public class LoggedAppUserDto {
+    private Long id;
+    private String username;
     private String firstName;
     private String lastName;
+    private String role;
 }

@@ -20,7 +20,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('administrator')")
+    @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<List<Category>> findAll() {
         return ResponseEntity.ok(categoryRepository.findAll());
     }

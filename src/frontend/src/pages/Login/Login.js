@@ -1,43 +1,43 @@
-import axios from '../../axios'
-import { useState } from 'react'
+import { Form, Formik, ErrorMessage } from 'formik'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import axios from '../../axios'
+import Button from '../../components/UI/Butttons/Button'
+import { InputField } from '../../components/UI/FormValidation/InputField'
+import { getLoginFormValidationSchema } from '../../components/UI/FormValidation/ValidationSchemas'
 import AuthContext from '../../context/AuthContext'
 import authHeader from '../../helpers/authHeader'
+import { FormContainer, MainContainer, ReadmeContainer, StyledWrapper } from './Login.styled'
+import Cookies from 'js-cookie'
 
 const Login = () => {
 	let navigate = useNavigate()
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
+	const { isAuthenticated, setIsAuthenticated, appUser, setAppUser } = useContext(AuthContext)
+	const [error, setError] = useState('')
 
-	const { isAuthenticated, setIsAuthenticated, user, setUser, firstName, setFirstName, lastName, setLastName } =
-		useContext(AuthContext)
-
-	const login = async e => {
-		e.preventDefault()
-		return axios
-			.post('/auth/login', {
-				username,
-				password,
-			})
+	const login = credentials => {
+		axios
+			.post('/auth/login', credentials)
 			.then(response => {
-				localStorage.setItem('token-data', response.data.token)
+				Cookies.set('token', response.data.token, { secure: true })
 				setIsAuthenticated(true)
-				setUser(username)
+				getData(credentials.username)
 				navigate('/')
 			})
 			.catch(error => {
-				alert(error)
+				if (error.response.status === 401) {
+					setError('Niewłaściwa nazwa użytkownika lub hasło.')
+				} else if (error.response.status === 500) {
+					setError('Brak odpowiedzi serwera.')
+				}
 			})
-			.finally(getData(username))
 	}
 
 	const getData = async username => {
 		return axios
-			.get(`/users/${username}}`, { headers: authHeader() })
+			.get(`/users/${username}`, { headers: authHeader() })
 			.then(response => {
-				setFirstName(response.data.firstName)
-				setLastName(response.data.lastName)
+				setAppUser(response.data)
 			})
 			.catch(error => {
 				alert(error)
@@ -45,15 +45,33 @@ const Login = () => {
 	}
 
 	return (
-		<form onSubmit={login}>
-			<label htmlFor='username'>username</label>
-			<input type='text' value={username} onChange={e => setUsername(e.target.value)} id='username'></input>
-
-			<label htmlFor='password'>password</label>
-			<input type='password' value={password} onChange={e => setPassword(e.target.value)} id='password'></input>
-
-			<button type='submit'>login</button>
-		</form>
+		<Formik
+			onSubmit={credentials => login(credentials)}
+			initialValues={{
+				username: 'demo',
+				password: 'demo',
+			}}
+			validationSchema={getLoginFormValidationSchema}>
+			<StyledWrapper>
+				<FormContainer>
+					<Form>
+						<h1>Warehouse Management System</h1>
+						<h2>logowanie do systemu</h2>
+						<InputField name='username' type='text' placeholder='login' />
+						<InputField name='password' type='password' placeholder='hasło' />
+						<Button type='submit' text='Zaloguj się'></Button> {error ? <p>{error}</p> : ''}
+					</Form>
+				</FormContainer>
+				<ReadmeContainer>
+					<h1>Eviva l'arte!</h1>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam totam culpa inventore eius repellat quis
+						nostrum quibusdam ipsum laboriosam ducimus labore est molestias voluptatem facere quae excepturi odio, eaque
+						sed suscipit accusantium atque at id reiciendis. Facilis ea rerum vel.
+					</p>
+				</ReadmeContainer>
+			</StyledWrapper>
+		</Formik>
 	)
 }
 

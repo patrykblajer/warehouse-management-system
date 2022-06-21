@@ -21,7 +21,7 @@ public class PalletController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('administrator')")
+    @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<List<Pallet>> findAll() {
         return ResponseEntity.ok(palletRepository.findAll());
     }

@@ -21,7 +21,7 @@ public class UnitController {
     private final UnitRepository unitRepository;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('administrator')")
+    @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<List<Unit>> findAll() {
         return ResponseEntity.ok(unitRepository.findAll());
     }

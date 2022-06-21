@@ -7,7 +7,7 @@ export const TextAreaField = ({ label, ...props }) => {
 	const [field, meta] = useField(props)
 	const id = useId()
 	return (
-		<div>
+		<>
 			<Form.Label htmlFor={id}>{label}</Form.Label>
 			<Form.Control
 				as='textarea'
@@ -19,6 +19,6 @@ export const TextAreaField = ({ label, ...props }) => {
 				autoComplete='off'
 			/>
 			<ErrorMessageWrapper name={field.name}></ErrorMessageWrapper>
-		</div>
+		</>
 	)
 }

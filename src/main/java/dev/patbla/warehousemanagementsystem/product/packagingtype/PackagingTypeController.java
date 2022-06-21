@@ -21,7 +21,7 @@ public class PackagingTypeController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('administrator')")
+    @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<List<PackagingType>> findAll() {
         return ResponseEntity.ok(packagingTypeRepository.findAll());
     }

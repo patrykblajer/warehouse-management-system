@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { React, Suspense, useReducer, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header/Header'
@@ -11,14 +11,12 @@ import Login from './pages/Login/Login'
 import Products from './pages/Products/Products'
 import SystemConfigurationPanel from './pages/SystemConfigurationPanel/SystemConfigurationPanel'
 import PrivateRoute from './PrivateRoute'
-
 import { AuthContext } from './context/AuthContext'
 
 function App() {
-	const [isAuthenticated, setIsAuthenticated] = useState(false)
-	const [user, setUser] = useState('')
-	const [firstName, setFirstName] = useState('')
-	const [lastName, setLastName] = useState('')
+	const [isAuthenticated, setIsAuthenticated] = useState()
+	const [appUser, setAppUser] = useState({})
+
 	const content = (
 		<div>
 			<Suspense fallback={<p>Ładowanie</p>}>
@@ -38,8 +36,7 @@ function App() {
 	const menu = <Menu></Menu>
 
 	return (
-		<AuthContext.Provider
-			value={{ isAuthenticated, setIsAuthenticated, user, setUser, firstName, setFirstName, lastName, setLastName }}>
+		<AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, appUser, setAppUser }}>
 			<BrowserRouter>
 				{isAuthenticated ? <Layout header={header} menu={menu} content={content} /> : <Login></Login>}
 			</BrowserRouter>
