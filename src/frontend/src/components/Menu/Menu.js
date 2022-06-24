@@ -1,6 +1,5 @@
-import style from './Menu.module.scss'
 import { NavLink } from 'react-router-dom'
-import React from 'react'
+import style from './Menu.module.scss'
 
 function Menu() {
 	return (

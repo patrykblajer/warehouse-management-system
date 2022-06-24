@@ -1,4 +1,3 @@
-import React from 'react'
 function LoadingIcon() {
 	return (
 		<div className='text-center'>

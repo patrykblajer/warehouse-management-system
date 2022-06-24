@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAsyncDebounce } from 'react-table'
 
 export function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {

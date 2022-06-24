@@ -1,5 +1,6 @@
 package dev.patbla.warehousemanagementsystem.security;
 
+import dev.patbla.warehousemanagementsystem.user.AppUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,10 +21,16 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil implements Serializable {
 
+    private final AppUserService appUserService;
+
     @Value("${jwt.token.expirationTime}")
     public long expirationTime;
 
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    public JwtTokenUtil(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -49,7 +56,14 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder().setClaims(claims)
+        var loggedUserDto = appUserService.mapToLoggedAppUserDto(userDetails.getUsername());
+        claims.put("id", loggedUserDto.getId());
+        claims.put("username", loggedUserDto.getUsername());
+        claims.put("firstName", loggedUserDto.getFirstName());
+        claims.put("lastName", loggedUserDto.getLastName());
+        claims.put("role", loggedUserDto.getRole());
+        return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
