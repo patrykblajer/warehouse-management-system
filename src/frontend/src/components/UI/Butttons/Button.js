@@ -1,4 +1,3 @@
-import React from 'react'
 import style from '../../UI/Butttons/Button.module.scss'
 
 export default function Button(props) {

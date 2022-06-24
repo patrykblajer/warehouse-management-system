@@ -1,8 +1,10 @@
-import styles from './Layout.module.scss'
 import withClass from '../hoc/withClass'
-import React from 'react'
+import useAuth from '../hooks/useAuth'
+import Login from '../pages/Login/Login'
+import styles from './Layout.module.scss'
 function Layout(props) {
-	return (
+	const { isAuthenticated } = useAuth()
+	return isAuthenticated ? (
 		<div>
 			<div>{props.header}</div>
 			<div className={`${styles.wrapper}`}>
@@ -10,6 +12,8 @@ function Layout(props) {
 				<div className={`${styles.content}`}>{props.content}</div>
 			</div>
 		</div>
+	) : (
+		<Login></Login>
 	)
 }
 

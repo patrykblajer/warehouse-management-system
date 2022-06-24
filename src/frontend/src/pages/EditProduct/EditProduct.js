@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import { Form, Formik } from 'formik'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from '../../axios'
 import Button from '../../components/UI/Butttons/Button'
-import {Form, Formik} from 'formik'
-import {InputField} from '../../components/UI/FormValidation/InputField'
-import {getProductFormValidationSchema} from '../../components/UI/FormValidation/ValidationSchemas'
-import {StyledWrapper, TitleBar} from '../AddProduct/ProductForm.styled'
-import {SelectField} from "../../components/UI/FormValidation/SelectField";
-import {TextAreaField} from "../../components/UI/FormValidation/TextAreaField";
-import LoadingIcon from "../../components/UI/LoadingIcon/LoadingIcon";
+import { InputField } from '../../components/UI/FormValidation/InputField'
+import { getProductFormValidationSchema } from '../../components/UI/FormValidation/ValidationSchemas'
+// import { StyledWrapper, TitleBar } from '../AddProduct/AddProduct.styled'
+import { SelectField } from '../../components/UI/FormValidation/SelectField'
+import { TextAreaField } from '../../components/UI/FormValidation/TextAreaField'
+import LoadingIcon from '../../components/UI/LoadingIcon/LoadingIcon'
+import authHeader from '../../helpers/authHeader'
 
 const EditProduct = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate()
     const [product, setProduct] = useState('')
     const [quantity, setQuantity] = useState('')
@@ -19,7 +20,7 @@ const EditProduct = () => {
     const [loading, setLoading] = useState(true)
     const fetchProduct = () => {
         axios
-            .get(`/products/${id}`)
+            .get(`/products/${id}`, { headers: authHeader() })
             .then(result => {
                 setProduct(result.data)
                 setQuantity(result.data.quantity)
@@ -31,18 +32,18 @@ const EditProduct = () => {
     }
 
     useEffect(() => {
-        fetchProduct();
+        fetchProduct()
     }, [])
 
     const submit = values => {
-        axios.patch(`/products/${id}`, values).catch(err => {
+        axios.patch(`/products/${id}`, values, { headers: authHeader() }).catch(err => {
             setError(err.response.data.errors)
         })
         navigate('/products')
     }
 
     const fetchSelectOptions = async endPoint => {
-        return await axios.get(`${endPoint}`).then(result => {
+        return await axios.get(`${endPoint}`, { headers: authHeader() }).then(result => {
             return result.data
         })
     }
@@ -63,24 +64,13 @@ const EditProduct = () => {
             description: product.description,
         }}
         validationSchema={getProductFormValidationSchema}>
-        {formik => (loading ? <LoadingIcon></LoadingIcon> : (<StyledWrapper>
+        {formik => loading ? (<LoadingIcon></LoadingIcon>) : (
+
             <Form>
-                <TitleBar>Dane podstawowe</TitleBar>
-                <InputField
-                    label='Index'
-                    name='index'
-                    value={formik.values.index || ''}
-                    type='text'/>
-                <InputField
-                    label='Nazwa'
-                    name='name'
-                    value={formik.values.name || ''}
-                    type='text'/>
-                <InputField
-                    label='Numer EAN'
-                    name='ean'
-                    value={formik.values.ean || ''}
-                    type='text'/>
+
+                <InputField label='Index' name='index' value={formik.values.index || ''} type='text' />
+                <InputField label='Nazwa' name='name' value={formik.values.name || ''} type='text' />
+                <InputField label='Numer EAN' name='ean' value={formik.values.ean || ''} type='text' />
                 <SelectField
                     label='Kategoria'
                     name='category'
@@ -95,7 +85,6 @@ const EditProduct = () => {
                     placeholder='Wybierz jednostkę'
                     loadOptions={() => fetchSelectOptions('/units')}
                 />
-                <TitleBar>Dane składowania</TitleBar>
                 <SelectField
                     label='Typ opakowania'
                     name='packagingType'
@@ -124,25 +113,22 @@ const EditProduct = () => {
                     value={formik.values.stackedOnPallet || ''}
                     min='0'
                     step='any'
-                    type='number'/>
+                    type='number'
+                />
                 <InputField
                     label='Minimalny poziom zapasów'
                     name='minimumLevelOfStocks'
                     value={formik.values.minimumLevelOfStocks || ''}
                     min='0'
                     step='any'
-                    type='number'/>
-                <TitleBar>Pozostałe</TitleBar>
-                <TextAreaField
-                    label='Opis'
-                    name='description'
-                    value={formik.values.description || ''}
-                    rows='6'/>
+                    type='number'
+                />
+                <TextAreaField label='Opis' name='description' value={formik.values.description || ''}
+                    rows='6' />
                 <div>
                     <Button type='submit' text='Zapisz'></Button>
                 </div>
-            </Form>
-        </StyledWrapper>))}
+            </Form>)}
     </Formik>)
 }
 export default EditProduct
