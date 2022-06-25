@@ -37,13 +37,13 @@ const AddProduct = () => {
         index: "",
         name: "",
         ean: "",
-        category: "",
-        unit: "",
-        packagingType: "",
+        category: {},
+        unit: {},
+        packagingType: {},
         inCollectivePackage: "",
         stackedOnPallet: "",
         minimumLevelOfStocks: "",
-        preferredPalletType: "",
+        preferredPalletType: {},
         description: "",
       }}
       validationSchema={getProductFormValidationSchema}

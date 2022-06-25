@@ -44,11 +44,11 @@ public class ProductService {
                 productToFormDto.getMinimumLevelOfStocks());
         productToAdd.setQuantity(quantity);
 
-        if (productToFormDto.getPreferredPalletType() != null) {
+        if (productToFormDto.getPreferredPalletType().getName() != null) {
             productToAdd.setPreferredPalletType(palletRepository.findPalletByName(productToFormDto.getPreferredPalletType().getName()).orElseThrow());
         }
 
-        if (productToFormDto.getPackagingType() != null) {
+        if (productToFormDto.getPackagingType().getName() != null) {
             productToAdd.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType().getName()).orElseThrow());
         }
     }
