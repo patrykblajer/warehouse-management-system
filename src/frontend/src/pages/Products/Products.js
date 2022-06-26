@@ -12,33 +12,34 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [refreshProducts, setRefreshProducts] = useState([]);
   const [loadingIcon, setLoadingIcon] = useState(true);
-  const [loadingButton, setLoadingButton] = useState("");
 
   const fetchProducts = () => {
     setTimeout(() => {
       axios
         .get('/products', { headers: authHeader() })
-        .then((x) => setProducts(x.data))
+        .then((x) => {
+          setProducts(x.data)
+          setLoadingIcon(false)
+        })
         .catch((error) => {
           alert(error);
         })
-        .finally(() => setLoadingIcon(false));
     }, 300);
   };
 
   const deleteHandler = (id) => {
-    setLoadingButton(id);
-    setTimeout(() => {
-      axios
-        .delete(`/products/${id}`)
-        .then(() => {
-          const productsAfterDelete = productsData.slice(id, 1);
-          setRefreshProducts(productsAfterDelete);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }, 300);
+    setLoadingIcon(true)
+    axios
+      .delete(`/products/${id}`, { headers: authHeader() })
+      .then(() => {
+        const productsAfterDelete = productsData.slice(id, 1);
+        setRefreshProducts(productsAfterDelete);
+        setLoadingIcon(false)
+
+      })
+      .catch((error) => {
+        alert(error);
+      })
   };
 
   const productsData = useMemo(() => [...products], [products]);
@@ -111,14 +112,10 @@ const Products = () => {
                 text={<i className="fa-solid fa-pen-to-square text-light"></i>}
               ></Button>
             </Link>
-            {loadingButton === row.values.id ? (
-              <Button withLoading={true}></Button>
-            ) : (
-              <Button
-                onClick={() => deleteHandler(row.values.id)}
-                text={<i className="fa-solid fa-trash color text-light"></i>}
-              ></Button>
-            )}
+            <Button
+              onClick={() => deleteHandler(row.values.id)}
+              text={<i className="fa-solid fa-trash color text-light"></i>}
+            ></Button>
           </>
         ),
       },
@@ -150,10 +147,9 @@ const Products = () => {
     fetchProducts();
   }, [refreshProducts]);
 
-  return loadingIcon ? (
-    <LoadingIcon></LoadingIcon>
-  ) : (
+  return (
     <>
+      {loadingIcon ? <LoadingIcon></LoadingIcon> : null}
       <div className={`${style.topContainer}`}>
         <Link to={`/products/add`}>
           <Button
