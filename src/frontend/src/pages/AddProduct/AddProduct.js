@@ -1,4 +1,7 @@
 import { Form, Formik } from "formik";
+import { useEffect } from "react";
+import { useCallback } from "react";
+import { useMemo } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axios";
@@ -12,23 +15,31 @@ import { StyledWrapper, TitleBar } from "./AddProduct.styled";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  let [errorData, setErrorData] = useState([]);
+  let [properties, setProperties] = useState([])
 
   const submit = values => {
     axios
       .post('/products', values, { headers: authHeader() })
-      .catch(err => {
-        setErrorData(err.response.data.errors)
+      .catch(error => {
+        alert(error)
       })
     navigate('/products')
   }
 
+  const fetchProductProperties = async () => {
+    return await axios
+      .get(`/products/properties`, { headers: authHeader() })
+      .then(res => {
+        setProperties(res.data)
+      })
+      .catch(error => {
+        alert(error)
+      })
+  }
 
-  const fetchSelectOptions = async (endPoint) => {
-    return await axios.get(`${endPoint}`, { headers: authHeader() }).then((result) => {
-      return result.data;
-    });
-  };
+  useEffect(() => {
+    fetchProductProperties()
+  }, []);
 
   return (
     <Formik
@@ -59,20 +70,21 @@ const AddProduct = () => {
               label="Kategoria"
               name="category"
               placeholder="Wybierz kategorię"
-              loadOptions={() => fetchSelectOptions("/categories")}
+              defaultOptions={properties.categories}
+
             />
             <SelectField
               label="Jednostka miary"
               name="unit"
               placeholder="Wybierz jednostkę"
-              loadOptions={() => fetchSelectOptions("/units")}
+              defaultOptions={properties.units}
             />
             <TitleBar>Dane składowania</TitleBar>
             <SelectField
               label="Typ opakowania"
               name="packagingType"
               placeholder="Wybierz opakowanie"
-              loadOptions={() => fetchSelectOptions("/packagingtype")}
+              defaultOptions={properties.packagingTypes}
             />
             <InputField
               label="Ilość w opakowaniu zbiorczym"
@@ -85,7 +97,7 @@ const AddProduct = () => {
               label="Preferowany typ palety"
               name="preferredPalletType"
               placeholder="Wybierz rodzaj palety"
-              loadOptions={() => fetchSelectOptions("/pallets")}
+              defaultOptions={properties.palletTypes}
             />
             <InputField
               label="Ilość opakowań na palecie"

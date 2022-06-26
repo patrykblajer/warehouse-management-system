@@ -53,4 +53,10 @@ public class ProductController {
         productRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/properties")
+    @PreAuthorize("hasAuthority('administrator systemu')")
+    public ResponseEntity<Object> getProductProperties() {
+        return ResponseEntity.ok(productService.getProductProperties());
+    }
 }

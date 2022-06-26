@@ -6,9 +6,12 @@ import dev.patbla.warehousemanagementsystem.product.packagingtype.PackagingTypeR
 import dev.patbla.warehousemanagementsystem.product.pallet.PalletRepository;
 import dev.patbla.warehousemanagementsystem.product.quantity.Quantity;
 import dev.patbla.warehousemanagementsystem.product.unit.UnitRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -18,13 +21,15 @@ public class ProductService {
     private final UnitRepository unitRepository;
     private final PackagingTypeRepository packagingTypeRepository;
     private final PalletRepository palletRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, UnitRepository unitRepository, PackagingTypeRepository packagingTypeRepository, PalletRepository palletRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, UnitRepository unitRepository, PackagingTypeRepository packagingTypeRepository, PalletRepository palletRepository, JdbcTemplate jdbcTemplate) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.unitRepository = unitRepository;
         this.packagingTypeRepository = packagingTypeRepository;
         this.palletRepository = palletRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
@@ -76,5 +81,18 @@ public class ProductService {
         if (productToFormDto.getPackagingType() != null) {
             product.setPackagingType(packagingTypeRepository.findPackagingTypeByName(productToFormDto.getPackagingType().getName()).orElseThrow());
         }
+    }
+
+    public Map<String, List<Map<String, Object>>> getProductProperties() {
+        List<Map<String, Object>> units = jdbcTemplate.queryForList("SELECT * FROM Unit unit");
+        List<Map<String, Object>> categories = jdbcTemplate.queryForList("SELECT * FROM Category category");
+        List<Map<String, Object>> packagingTypes = jdbcTemplate.queryForList("SELECT * FROM Packaging_Type pt");
+        List<Map<String, Object>> palletTypes = jdbcTemplate.queryForList("SELECT * FROM Pallet pallet");
+        Map<String, List<Map<String, Object>>> options = new HashMap<>();
+        options.put("units", units);
+        options.put("categories", categories);
+        options.put("packagingTypes", packagingTypes);
+        options.put("palletTypes", palletTypes);
+        return options;
     }
 }
