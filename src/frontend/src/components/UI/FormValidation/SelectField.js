@@ -23,7 +23,6 @@ export const SelectField = ({ label, ...props }) => {
 					className={meta.touched && meta.error}
 					{...props}
 					cacheOptions
-					defaultOptions
 					getOptionLabel={e => e.name}
 					getOptionValue={e => e.name}
 					filterOption={filterOption}

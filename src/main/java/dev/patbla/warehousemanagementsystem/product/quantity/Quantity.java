@@ -1,6 +1,5 @@
 package dev.patbla.warehousemanagementsystem.product.quantity;
 
-import dev.patbla.warehousemanagementsystem.product.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +23,7 @@ public class Quantity {
     private double minimumLevelOfStocks;
 
     public Quantity(double inCollectivePackage, double stackedOnPallet, double minimumLevelOfStocks) {
-        setAvailable(0);
+        this.available = 0;
         this.inCollectivePackage = inCollectivePackage;
         this.stackedOnPallet = stackedOnPallet;
         this.minimumLevelOfStocks = minimumLevelOfStocks;
