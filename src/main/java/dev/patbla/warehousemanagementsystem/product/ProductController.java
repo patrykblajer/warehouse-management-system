@@ -59,4 +59,10 @@ public class ProductController {
     public ResponseEntity<Object> getProductProperties() {
         return ResponseEntity.ok(productService.getProductProperties());
     }
+
+    @GetMapping("/stats")
+    @PreAuthorize("hasAuthority('administrator systemu')")
+    public ResponseEntity<Object> getCountAvailableProducts() {
+        return ResponseEntity.ok(productService.getAvailableProducts());
+    }
 }

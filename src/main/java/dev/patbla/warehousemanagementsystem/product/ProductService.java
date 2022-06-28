@@ -8,6 +8,7 @@ import dev.patbla.warehousemanagementsystem.product.quantity.Quantity;
 import dev.patbla.warehousemanagementsystem.product.unit.UnitRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -94,5 +95,13 @@ public class ProductService {
         options.put("packagingTypes", packagingTypes);
         options.put("palletTypes", palletTypes);
         return options;
+    }
+
+    public Map<String, Integer> getAvailableProducts() {
+        Integer availableProductCounter
+                = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM Quantity quantity WHERE quantity.available > 0", Integer.class);
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("availableProducts", availableProductCounter);
+        return stats;
     }
 }
