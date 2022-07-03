@@ -1,6 +1,8 @@
 package dev.patbla.warehousemanagementsystem.product;
 
-import dev.patbla.warehousemanagementsystem.product.dtos.ProductToFormDto;
+import dev.patbla.warehousemanagementsystem.product.domain.ProductFacade;
+import dev.patbla.warehousemanagementsystem.product.domain.dtos.ProductToFormDto;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,58 +13,53 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "api/v1/products")
-public class ProductController {
+class ProductController {
 
-    private final ProductRepository productRepository;
-    private final ProductService productService;
-
-    public ProductController(ProductRepository productRepository, ProductService productService) {
-        this.productRepository = productRepository;
-        this.productService = productService;
-    }
+    private final ProductFacade facade;
 
     @GetMapping
     @PreAuthorize("hasAuthority('administrator systemu')")
-    public ResponseEntity<List<Product>> findAll() {
-        return ResponseEntity.ok(productRepository.findAllProducts());
+    public ResponseEntity<List<?>> findAll() {
+        return ResponseEntity.ok(facade.findAllProducts());
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductToFormDto productToFormDto) {
-        productService.addProduct(productToFormDto);
+        facade.addNewProduct(productToFormDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(productRepository.findById(id).orElseThrow());
+    ResponseEntity<Object> findProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(facade.findProductById(id));
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductToFormDto productToFormDto) {
-        productService.updateProduct(id, productToFormDto);
+        facade.updateProduct(id, productToFormDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
+        facade.deleteProductById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/properties")
     @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<Object> getProductProperties() {
-        return ResponseEntity.ok(productService.getProductProperties());
+        return ResponseEntity.ok(facade.getProductProperties());
     }
 
     @GetMapping("/stats")
     @PreAuthorize("hasAuthority('administrator systemu')")
     public ResponseEntity<Object> getCountAvailableProducts() {
-        return ResponseEntity.ok(productService.getAvailableProducts());
+        return ResponseEntity.ok(facade.getAvailableProducts());
     }
 }

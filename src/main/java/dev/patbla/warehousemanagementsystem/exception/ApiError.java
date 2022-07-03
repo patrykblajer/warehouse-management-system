@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Map;
 
 @Data
-public class ApiError {
+class ApiError {
 
     private HttpStatus status;
     private String message;

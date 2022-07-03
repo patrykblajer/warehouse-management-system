@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 @Configuration
 @Profile("dev")
-public class H2Config {
+class H2Config {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server h2Server() throws SQLException {
